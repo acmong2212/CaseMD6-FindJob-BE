@@ -42,6 +42,8 @@ public class Post {
     // mã bài tuyển dụng
     private String postCode;
 
+    private boolean status;
+
     @ManyToOne
     private Users users;
 
