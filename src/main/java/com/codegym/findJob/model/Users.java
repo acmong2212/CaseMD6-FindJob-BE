@@ -40,7 +40,7 @@ public class Users {
     @Email
     private String email;
 
-    @JsonIgnore
+//    @JsonIgnore
     @NotBlank
     @Size(max = 100)
     private String password;
