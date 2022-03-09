@@ -15,9 +15,6 @@ import java.util.Set;
 @Entity
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = {
-                "username"
-        }),
-        @UniqueConstraint(columnNames = {
                 "email"
         })
 })
@@ -29,10 +26,6 @@ public class Users {
     @NotBlank
     @Size(min = 3, max = 50)
     private String name;
-
-    @NotBlank
-    @Size(min = 3, max = 50)
-    private String username;
 
     @NaturalId(mutable = true)
     @NotBlank
@@ -82,13 +75,11 @@ public class Users {
 
 
     public Users(@NotBlank @Size(min = 3, max = 50) String name,
-                 @NotBlank @Size(min = 3, max = 50) String username,
                  @NotBlank @Size(max = 50) @Email String email,
                  String phoneNumber,
                  String avatar,
                  @NotBlank @Size(min = 6, max = 100) String encode) {
         this.name = name;
-        this.username = username;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.avatar = avatar;
@@ -98,12 +89,11 @@ public class Users {
     public Users() {
     }
 
-    public Users(Long id, String name, String username, String email, String password, String avatar, String cv, String companyCode,
+    public Users(Long id, String name, String email, String password, String avatar, String cv, String companyCode,
                  String phoneNumber, String description, String address, Long numberOfEmployees, String branch, String fieldOfActivity,
                  String website, String facebook, String mapLink, Set<Role> roles) {
         this.id = id;
         this.name = name;
-        this.username = username;
         this.email = email;
         this.password = password;
         this.avatar = avatar;
@@ -135,14 +125,6 @@ public class Users {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getEmail() {
