@@ -58,4 +58,5 @@ public class CompanyController {
 //        companyPostService.setStatusPost(id);
 //        return new ResponseEntity<>(HttpStatus.OK);
 //    }
+    //@Todo create controller for login/ register
 }
