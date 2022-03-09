@@ -25,4 +25,5 @@ public class CompanyController {
     public ResponseEntity<Users> showByCompanyCode(@RequestParam String companyCode){
         return new ResponseEntity<>(companyService.findByCompanyCode(companyCode), HttpStatus.OK);
     }
+    //@Todo create controller for login/ register
 }
