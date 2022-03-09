@@ -28,4 +28,9 @@ public class CompanyService implements ICompanyService {
         companyRepository.save(users);
     }
 
+    @Override
+    public Users findById(Long id) {
+        return companyRepository.findById(id).get();
+    }
+
 }

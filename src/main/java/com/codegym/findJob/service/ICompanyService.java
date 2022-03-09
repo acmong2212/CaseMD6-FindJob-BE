@@ -8,4 +8,5 @@ public interface ICompanyService {
     List<Users> findAllCompany();
     Users findByCompanyCode(String companyCode);
     void saveCompany(Users users);
+    Users findById(Long id);
 }
