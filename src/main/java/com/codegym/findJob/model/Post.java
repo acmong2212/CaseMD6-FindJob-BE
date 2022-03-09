@@ -20,6 +20,7 @@ public class Post {
 
     private double price;
 
+
     // vị trí tuyển dụng
     private String jobLocation;
 
