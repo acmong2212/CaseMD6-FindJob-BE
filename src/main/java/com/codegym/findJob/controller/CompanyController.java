@@ -30,31 +30,42 @@ public class CompanyController {
     ICompanyFieldService companyFieldRepository;
 
 
-
     @GetMapping
-    public ResponseEntity<List<Company>> getAllCompany(){
+    public ResponseEntity<List<Company>> getAllCompany() {
         return new ResponseEntity<>(companyService.findAllCompany(), HttpStatus.OK);
     }
 
-    @PutMapping("")
-    public ResponseEntity<?> editCompanyInformation(@RequestBody Company company){
+    @PutMapping("")// sửa công ty
+    public ResponseEntity<?> editCompanyInformation(@RequestBody Company company) {
         companyService.saveCompany(company);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/post")
-    public ResponseEntity<List<Post>> getAllPost(){
+    public ResponseEntity<List<Post>> getAllPost() {
         return new ResponseEntity<>(companyPostService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/field")
-    public ResponseEntity<List<Field>> getAllField(){
+    @GetMapping("/field") //lấy ra list ngành
+    public ResponseEntity<List<Field>> getAllField() {
         return new ResponseEntity<>(companyFieldRepository.findAll(), HttpStatus.OK);
     }
 
-    @PostMapping("/post")
-    public ResponseEntity<?> createPost(@RequestBody Post post){
+    @PostMapping("/post") //tạo bài post
+    public ResponseEntity<?> createPost(@RequestBody Post post) {
         companyPostService.save(post);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/post")// sửa 1 bài post
+    public ResponseEntity<?> editPost(@RequestBody Post post){
+        companyPostService.save(post);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/post/{id}")// sửa trạng thái status
+    public  ResponseEntity<?> editStatusPost(@PathVariable Long id){
+        companyPostService.setStatusPost(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

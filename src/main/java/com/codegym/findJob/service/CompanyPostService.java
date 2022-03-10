@@ -19,10 +19,10 @@ public class CompanyPostService implements ICompanyPostService {
     @Autowired
     CompanyFieldRepository companyFieldRepository;
 
-//    @Override
-//    public Post findById(Long id) {
-//        return companyPostRepository.getById(id);
-//    }
+    @Override
+    public Post findById(Long id) {
+        return companyPostRepository.findById(id).get();
+    }
 
     @Override
     public void save(Post post) {
@@ -34,6 +34,13 @@ public class CompanyPostService implements ICompanyPostService {
     @Override
     public List<Post> findAll() {
         return companyPostRepository.findAll();
+    }
+
+    @Override
+    public void setStatusPost(Long id) {
+        Post post = findById(id);
+        post.setStatus(!post.isStatus());
+        save(post);
     }
 
 
