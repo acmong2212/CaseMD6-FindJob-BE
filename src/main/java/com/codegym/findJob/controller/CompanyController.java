@@ -18,8 +18,7 @@ public class CompanyController {
     @Autowired
     CompanyService companyService;
 
-//    @Autowired
-//    CompanyPostService companyPostService;
+
 
     @GetMapping
     public ResponseEntity<List<Users>> getAllCompany(){
@@ -37,20 +36,4 @@ public class CompanyController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    @PostMapping("/post")
-//    public ResponseEntity<?> createPost(@RequestBody Post post){
-//        companyPostService.save(post);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-//
-//    @GetMapping("/companyCode")
-//    public ResponseEntity<List<Post>> showPostByCompanyCode(@PathVariable String companyCode){
-//        return new ResponseEntity<>(companyPostService.findPostByCompanyCode(companyCode), HttpStatus.OK);
-//    }
-//
-//    @PutMapping("/post")
-//    public ResponseEntity<?> setStatusPost(@PathVariable Long id){
-//        companyPostService.setStatusPost(id);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
 }
