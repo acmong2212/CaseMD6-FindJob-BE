@@ -19,16 +19,14 @@ public class CompanyPostService implements ICompanyPostService {
     @Autowired
     CompanyFieldRepository companyFieldRepository;
 
-//    @Overridez
+//    @Override
 //    public Post findById(Long id) {
 //        return companyPostRepository.getById(id);
 //    }
 
-
-    //tạo mới bài post
     @Override
     public void save(Post post) {
-        String postCode = "POST" + companyService.findById(post.getUsers().getId()).getCompanyCode() + post.getField().getId();
+        String postCode = "POST" + companyService.findById(post.getCompany().getId()).getCompanyCode() + post.getField().getId();
         post.setPostCode(postCode);
         companyPostRepository.save(post);
     }
@@ -38,19 +36,5 @@ public class CompanyPostService implements ICompanyPostService {
         return companyPostRepository.findAll();
     }
 
-//    @Override
-//    public List<Post> findPostByPostCode(String postCode) {
-//        return companyPostRepository.findPostByCompanyCode(postCode);
-//    }
-//
-//    @Override
-//    public void setStatusPost(Long id) {
-//        Post post = companyPostRepository.getById(id);
-//        post.setStatus(!post.isStatus());
-//    }
-//
-//    @Override
-//    public List<Post> findPostByCompanyCode(String companyCode) {
-//        return null;
-//    }
+
 }

@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CompanyPostRepository extends JpaRepository<Post, Long> {
-//    @Query(nativeQuery = true, value = "select * from post where company_code  = :companyCode")
-//    List<Post> findPostByCompanyCode(@Param("companyCode") String companyCode);
+    @Query(nativeQuery = true, value = "select * from post where company_code  = :companyCode")
+    List<Post> findPostByCompanyCode(@Param("companyCode") String companyCode);
 }

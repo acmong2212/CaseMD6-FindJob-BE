@@ -1,8 +1,12 @@
 package com.codegym.findJob.controller;
 
+import com.codegym.findJob.model.Company;
 import com.codegym.findJob.model.Field;
 import com.codegym.findJob.model.Post;
 import com.codegym.findJob.model.Users;
+import com.codegym.findJob.service.CompanyPostService;
+//import com.codegym.findJob.service.CompanyPostService;
+import com.codegym.findJob.service.CompanyService;
 import com.codegym.findJob.repository.CompanyFieldRepository;
 import com.codegym.findJob.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,19 +29,16 @@ public class CompanyController {
     @Autowired
     ICompanyFieldService companyFieldRepository;
 
+
+
     @GetMapping
-    public ResponseEntity<List<Users>> getAllCompany(){
+    public ResponseEntity<List<Company>> getAllCompany(){
         return new ResponseEntity<>(companyService.findAllCompany(), HttpStatus.OK);
     }
 
-    @GetMapping("/{companyCode}")
-    public ResponseEntity<Users> showByCompanyCode(@PathVariable String companyCode){
-        return new ResponseEntity<>(companyService.findByCompanyCode(companyCode), HttpStatus.OK);
-    }
-
     @PutMapping("")
-    public ResponseEntity<?> editCompanyInformation(@RequestBody Users users){
-        companyService.saveCompany(users);
+    public ResponseEntity<?> editCompanyInformation(@RequestBody Company company){
+        companyService.saveCompany(company);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -56,16 +57,4 @@ public class CompanyController {
         companyPostService.save(post);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-//    @GetMapping("/companyCode")
-//    public ResponseEntity<List<Post>> showPostByCompanyCode(@PathVariable String companyCode){
-//        return new ResponseEntity<>(companyPostService.findPostByCompanyCode(companyCode), HttpStatus.OK);
-//    }
-//
-//    @PutMapping("/post")
-//    public ResponseEntity<?> setStatusPost(@PathVariable Long id){
-//        companyPostService.setStatusPost(id);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-    //@Todo create controller for login/ register
 }
