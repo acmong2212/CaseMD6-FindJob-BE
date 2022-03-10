@@ -1,9 +1,10 @@
 package com.codegym.findJob.controller;
 
+import com.codegym.findJob.model.Field;
 import com.codegym.findJob.model.Post;
 import com.codegym.findJob.model.Users;
-import com.codegym.findJob.service.CompanyPostService;
-import com.codegym.findJob.service.CompanyService;
+import com.codegym.findJob.repository.CompanyFieldRepository;
+import com.codegym.findJob.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,13 @@ import java.util.List;
 @RequestMapping("/company")
 public class CompanyController {
     @Autowired
-    CompanyService companyService;
+    ICompanyService companyService;
 
     @Autowired
-    CompanyPostService companyPostService;
+    ICompanyPostService companyPostService;
+
+    @Autowired
+    ICompanyFieldService companyFieldRepository;
 
     @GetMapping
     public ResponseEntity<List<Users>> getAllCompany(){
@@ -40,6 +44,11 @@ public class CompanyController {
     @GetMapping("/post")
     public ResponseEntity<List<Post>> getAllPost(){
         return new ResponseEntity<>(companyPostService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/field")
+    public ResponseEntity<List<Field>> getAllField(){
+        return new ResponseEntity<>(companyFieldRepository.findAll(), HttpStatus.OK);
     }
 
     @PostMapping("/post")
