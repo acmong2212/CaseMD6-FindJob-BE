@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IUserService {
-    Optional<Users> findByUserName(String username);
-    Boolean existsByUserName(String username);
+    Optional<Users> findByEmail(String email);
     Boolean existsByEmail(String email);
     Users save(Users users);
     void deleteById(Long id);

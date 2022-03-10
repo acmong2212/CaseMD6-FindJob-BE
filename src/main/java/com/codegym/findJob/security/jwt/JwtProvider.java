@@ -18,7 +18,7 @@ public class JwtProvider {
 
     public String createToken(Authentication authentication) {
         UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
-        return Jwts.builder().setSubject(userPrinciple.getUsername())
+        return Jwts.builder().setSubject(userPrinciple.getEmail())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + jwtExpiration * 1000))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
@@ -43,8 +43,8 @@ public class JwtProvider {
         return false;
     }
 
-    public String getUserNameFromToken(String token){
-        String userName = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
-        return userName;
+    public String getEmailFromToken(String token){
+        String email = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+        return email;
     }
 }

@@ -46,9 +46,6 @@ public class UserAuthController {
 
     @PostMapping("/signup/user")
     public ResponseEntity<?> registerUser (@Valid @RequestBody SignUpFormUser signUpFormUser) {
-        if(userService.existsByUserName(signUpFormUser.getUsername())){
-            return new ResponseEntity<>(new ResponseMessage("username_existed"), HttpStatus.OK);
-        }
         if(userService.existsByEmail(signUpFormUser.getEmail())){
             return new ResponseEntity<>(new ResponseMessage("email_existed"), HttpStatus.OK);
         }
@@ -57,7 +54,6 @@ public class UserAuthController {
         }
         Users users = new Users(
           signUpFormUser.getName(),
-          signUpFormUser.getUsername(),
           signUpFormUser.getEmail(),
           signUpFormUser.getPhoneNumber(),
           signUpFormUser.getAvatar(),

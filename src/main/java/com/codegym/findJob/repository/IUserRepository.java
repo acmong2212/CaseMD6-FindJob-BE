@@ -11,8 +11,7 @@ import java.util.Optional;
 @Repository
 public interface IUserRepository extends JpaRepository<Users, Long> {
     List<Users> findUsersByIdIsNotLike(Long id);
-    Optional<Users> findByUsername(String username);
-    Boolean existsByUsername(String username);
+    Optional<Users> findByEmail(String email);
     Boolean existsByEmail(String email);
     @Query(nativeQuery = true, value = "select count(id) from users")
     int countUsers();

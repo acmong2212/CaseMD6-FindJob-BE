@@ -23,13 +23,8 @@ public class UserServiceImpl implements IUserService {
     EntityManager em;
 
     @Override
-    public Optional<Users> findByUserName(String username) {
-        return userRepository.findByUsername(username);
-    }
-
-    @Override
-    public Boolean existsByUserName(String username) {
-        return userRepository.existsByUsername(username);
+    public Optional<Users> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Override
