@@ -104,7 +104,7 @@ public class Company {
         this.facebook = facebook;
         this.mapLink = mapLink;
     }
-
+// hello
     public Long getId() {
         return id;
     }
