@@ -76,18 +76,18 @@ public class UserAuthController {
         return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
     }
 
-//    @PostMapping("/signin/user")
-//    public ResponseEntity<?> login(@Valid @RequestBody SignInFormUser signInForm){
-//
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(signInForm.getUsername(), signInForm.getPassword())
-//        );
-//
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        String token = jwtProvider.createToken(authentication);
-//
-//        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
-//        Users users = userService.findByUserName(userPrinciple.getUsername()).get();
-//        return ResponseEntity.ok(new JwtResponse(token, users));
-//    }
+    @PostMapping("/signin/user")
+    public ResponseEntity<?> login(@Valid @RequestBody SignInFormUser signUpFormUser){
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(signUpFormUser.getEmail(), signUpFormUser.getPassword())
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtProvider.createToken(authentication);
+
+        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
+        Users users = userService.findByEmail(userPrinciple.getEmail()).get();
+        return ResponseEntity.ok(new JwtResponse(token, users));
+    }
 }
