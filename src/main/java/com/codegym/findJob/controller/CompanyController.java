@@ -3,6 +3,7 @@ package com.codegym.findJob.controller;
 import com.codegym.findJob.model.Post;
 import com.codegym.findJob.model.Users;
 import com.codegym.findJob.service.CompanyPostService;
+//import com.codegym.findJob.service.CompanyPostService;
 import com.codegym.findJob.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,8 @@ public class CompanyController {
     @Autowired
     CompanyPostService companyPostService;
 
+
+
     @GetMapping
     public ResponseEntity<List<Users>> getAllCompany(){
         return new ResponseEntity<>(companyService.findAllCompany(), HttpStatus.OK);
@@ -36,6 +39,8 @@ public class CompanyController {
         companyService.saveCompany(users);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
 
     @GetMapping("/post")
     public ResponseEntity<List<Post>> getAllPost(){
