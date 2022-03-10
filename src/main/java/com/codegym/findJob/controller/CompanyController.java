@@ -35,12 +35,10 @@ public class CompanyController {
     }
 
     @PutMapping("")
-    public ResponseEntity<?> editCompanyInformation(@RequestBody Users users){
-        companyService.saveCompany(users);
-        return new ResponseEntity<>(HttpStatus.OK);
+        public ResponseEntity<?> editCompanyInformation(@RequestBody Users users){
+            companyService.saveCompany(users);
+            return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
 
     @GetMapping("/post")
     public ResponseEntity<List<Post>> getAllPost(){
