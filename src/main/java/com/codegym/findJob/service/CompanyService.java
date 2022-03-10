@@ -1,5 +1,6 @@
 package com.codegym.findJob.service;
 
+import com.codegym.findJob.model.Company;
 import com.codegym.findJob.model.Users;
 import com.codegym.findJob.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,24 +14,19 @@ public class CompanyService implements ICompanyService {
     @Autowired
     CompanyRepository companyRepository;
 
+
     @Override
-    public List<Users> findAllCompany() {
-        return companyRepository.getAllCompany();
+    public List<Company> findAllCompany() {
+        return companyRepository.findAll();
     }
 
     @Override
-    public Users findByCompanyCode(String companyCode) {
-        return companyRepository.findByCompanyCode(companyCode);
+    public void saveCompany(Company company) {
+        companyRepository.save(company);
     }
 
     @Override
-    public void saveCompany(Users users) {
-        companyRepository.save(users);
-    }
-
-    @Override
-    public Users findById(Long id) {
+    public Company findById(Long id) {
         return companyRepository.findById(id).get();
     }
-
 }

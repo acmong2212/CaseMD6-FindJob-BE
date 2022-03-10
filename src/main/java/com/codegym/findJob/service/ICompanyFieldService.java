@@ -2,6 +2,9 @@ package com.codegym.findJob.service;
 
 import com.codegym.findJob.model.Field;
 
-public interface ICompanyFiled {
+import java.util.List;
+
+public interface    ICompanyFieldService {
+    List<Field> findAll();
     Field findById(Long id);
 }

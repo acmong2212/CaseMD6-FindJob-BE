@@ -46,7 +46,7 @@ public class Post {
     private boolean status;
 
     @ManyToOne
-    private Users users;
+    private Company company;
 
     @ManyToOne
     private Field field;

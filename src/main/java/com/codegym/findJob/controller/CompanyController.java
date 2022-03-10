@@ -1,10 +1,14 @@
 package com.codegym.findJob.controller;
 
+import com.codegym.findJob.model.Company;
+import com.codegym.findJob.model.Field;
 import com.codegym.findJob.model.Post;
 import com.codegym.findJob.model.Users;
 import com.codegym.findJob.service.CompanyPostService;
 //import com.codegym.findJob.service.CompanyPostService;
 import com.codegym.findJob.service.CompanyService;
+import com.codegym.findJob.repository.CompanyFieldRepository;
+import com.codegym.findJob.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,27 +21,25 @@ import java.util.List;
 @RequestMapping("/company")
 public class CompanyController {
     @Autowired
-    CompanyService companyService;
+    ICompanyService companyService;
 
     @Autowired
-    CompanyPostService companyPostService;
+    ICompanyPostService companyPostService;
+
+    @Autowired
+    ICompanyFieldService companyFieldRepository;
 
 
 
     @GetMapping
-    public ResponseEntity<List<Users>> getAllCompany(){
+    public ResponseEntity<List<Company>> getAllCompany(){
         return new ResponseEntity<>(companyService.findAllCompany(), HttpStatus.OK);
     }
 
-    @GetMapping("/{companyCode}")
-    public ResponseEntity<Users> showByCompanyCode(@PathVariable String companyCode){
-        return new ResponseEntity<>(companyService.findByCompanyCode(companyCode), HttpStatus.OK);
-    }
-
     @PutMapping("")
-        public ResponseEntity<?> editCompanyInformation(@RequestBody Users users){
-            companyService.saveCompany(users);
-            return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<?> editCompanyInformation(@RequestBody Company company){
+        companyService.saveCompany(company);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/post")
@@ -45,21 +47,14 @@ public class CompanyController {
         return new ResponseEntity<>(companyPostService.findAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/field")
+    public ResponseEntity<List<Field>> getAllField(){
+        return new ResponseEntity<>(companyFieldRepository.findAll(), HttpStatus.OK);
+    }
+
     @PostMapping("/post")
     public ResponseEntity<?> createPost(@RequestBody Post post){
         companyPostService.save(post);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-//    @GetMapping("/companyCode")
-//    public ResponseEntity<List<Post>> showPostByCompanyCode(@PathVariable String companyCode){
-//        return new ResponseEntity<>(companyPostService.findPostByCompanyCode(companyCode), HttpStatus.OK);
-//    }
-//
-//    @PutMapping("/post")
-//    public ResponseEntity<?> setStatusPost(@PathVariable Long id){
-//        companyPostService.setStatusPost(id);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-
 }
