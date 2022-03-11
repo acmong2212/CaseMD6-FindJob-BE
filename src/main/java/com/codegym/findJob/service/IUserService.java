@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface IUserService {
     Optional<Users> findByEmail(String email);
+    Boolean existsByName(String name);
     Boolean existsByEmail(String email);
     Users save(Users users);
     void deleteById(Long id);

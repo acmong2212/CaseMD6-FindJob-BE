@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 @RestController
@@ -44,30 +45,47 @@ public class UserAuthController {
 
     private IRegistrationService registrationService;
 
-    @PostMapping("/signup/user")
-    public ResponseEntity<?> registerUser (@Valid @RequestBody SignUpFormUser signUpFormUser) {
-        if(userService.existsByEmail(signUpFormUser.getEmail())){
+    @PostMapping("/signup")
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpFormUser signUpFormUser) {
+        if (userService.existsByEmail(signUpFormUser.getEmail())) {
             return new ResponseEntity<>(new ResponseMessage("email_existed"), HttpStatus.OK);
         }
-        if(signUpFormUser.getAvatar() == null || signUpFormUser.getAvatar().trim().isEmpty()){
+        if (signUpFormUser.getAvatar() == null || signUpFormUser.getAvatar().trim().isEmpty()) {
             signUpFormUser.setAvatar("https://firebasestorage.googleapis.com/v0/b/casemd4-b5188.appspot.com/o/Avatar-Facebook-trắng.jpg?alt=media&token=e8460146-9763-4a7f-bb4e-56148b670434"); //Chỗ này là ảnh của user lúc đăng kí, sẽ gán cho nó 1 cái mặc định
         }
         Users users = new Users(
-          signUpFormUser.getName(),
-          signUpFormUser.getEmail(),
-          signUpFormUser.getPhoneNumber(),
-          signUpFormUser.getAvatar(),
-          passwordEncoder.encode(signUpFormUser.getPassword()));
+                signUpFormUser.getName(),
+                signUpFormUser.getEmail(),
+                signUpFormUser.getPhoneNumber(),
+                signUpFormUser.getAvatar(),
+                passwordEncoder.encode(signUpFormUser.getPassword()));
         Set<String> strRoles = signUpFormUser.getRoles();
         Set<Role> roles = new HashSet<>();
         strRoles.forEach(role -> {
             switch (role) {
-                case "ADMIN" :
-                    Role smRole = roleService.findByName(RoleName.ADMIN).orElseThrow( ()-> new RuntimeException("Role not found"));
-                    roles.add(smRole);
+                case "ADMIN":
+                    Role adRole = roleService.findByName(RoleName.ADMIN).orElseThrow(() -> new RuntimeException("Role not found"));
+                    roles.add(adRole);
                     break;
+//                case "COMPANY":
+//                    if(userService.existsByName(signUpFormUser.getName())){
+//                         new ResponseEntity<>(new ResponseMessage("name_existed"), HttpStatus.OK);
+//                    }
+//                    String text = signUpFormUser.getName();
+//                    char[] companyCode = new char[3];
+//                    text.getChars(0, 3, companyCode, 0);
+//
+//                    Random number = new Random();
+//                    int numberRandom = 9999;
+//                    int numberResult = Integer.parseInt(String.valueOf(number.nextInt(numberRandom)));
+//                    String companyCodeResult = String.valueOf(companyCode) + "#" + numberResult;
+//                    users.setCompanyCode(companyCodeResult);
+//
+//                    Role comRole = roleService.findByName(RoleName.COMPANY).orElseThrow(() -> new RuntimeException("Role not found"));
+//                    roles.add(comRole);
+//                    break;
                 default:
-                    Role usRole = roleService.findByName(RoleName.USER).orElseThrow( ()-> new RuntimeException("Role not found"));
+                    Role usRole = roleService.findByName(RoleName.USER).orElseThrow(() -> new RuntimeException("Role not found"));
                     roles.add(usRole);
             }
         });
@@ -76,8 +94,8 @@ public class UserAuthController {
         return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
     }
 
-    @PostMapping("/signin/user")
-    public ResponseEntity<?> login(@Valid @RequestBody SignInFormUser signUpFormUser){
+    @PostMapping("/signin")
+    public ResponseEntity<?> login(@Valid @RequestBody SignInFormUser signUpFormUser) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(signUpFormUser.getEmail(), signUpFormUser.getPassword())

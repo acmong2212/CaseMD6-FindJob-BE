@@ -18,8 +18,8 @@ public class Post {
     @Size(min = 3, max = 50)
     private String title;
 
-    private double price;
-
+    // Mức lương
+    private double salary;
 
     // vị trí tuyển dụng
     private String jobLocation;
@@ -46,7 +46,7 @@ public class Post {
     private boolean status;
 
     @ManyToOne
-    private Company company;
+    private Users company;
 
     @ManyToOne
     private Field field;

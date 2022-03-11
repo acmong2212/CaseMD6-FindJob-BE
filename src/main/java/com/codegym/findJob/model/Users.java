@@ -47,6 +47,28 @@ public class Users {
 
     private String address;
 
+    // mã doanh nghiệp
+    private String companyCode;
+
+    @Lob
+    private String description;
+
+    // Số lượng nhân viên
+    private Long numberOfEmployees;
+
+    // Chi nhánh
+    private String branch;
+
+    // Lĩnh vực hoạt động
+    private String fieldOfActivity;
+
+    private String website;
+
+    private String facebook;
+
+    // link gg map
+    private String mapLink;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     Set<Role> roles = new HashSet<>();
@@ -67,7 +89,8 @@ public class Users {
     }
 
     public Users(Long id, String name, String email, String password, String avatar, String cv, String phoneNumber, String address,
-                 Set<Role> roles) {
+                 String companyCode, String description, Long numberOfEmployees, String branch, String fieldOfActivity, String website,
+                 String facebook, String mapLink, Set<Role> roles) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -76,6 +99,14 @@ public class Users {
         this.cv = cv;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.companyCode = companyCode;
+        this.description = description;
+        this.numberOfEmployees = numberOfEmployees;
+        this.branch = branch;
+        this.fieldOfActivity = fieldOfActivity;
+        this.website = website;
+        this.facebook = facebook;
+        this.mapLink = mapLink;
         this.roles = roles;
     }
 
@@ -149,5 +180,69 @@ public class Users {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Long getNumberOfEmployees() {
+        return numberOfEmployees;
+    }
+
+    public void setNumberOfEmployees(Long numberOfEmployees) {
+        this.numberOfEmployees = numberOfEmployees;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+
+    public String getFieldOfActivity() {
+        return fieldOfActivity;
+    }
+
+    public void setFieldOfActivity(String fieldOfActivity) {
+        this.fieldOfActivity = fieldOfActivity;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public String getFacebook() {
+        return facebook;
+    }
+
+    public void setFacebook(String facebook) {
+        this.facebook = facebook;
+    }
+
+    public String getMapLink() {
+        return mapLink;
+    }
+
+    public void setMapLink(String mapLink) {
+        this.mapLink = mapLink;
     }
 }

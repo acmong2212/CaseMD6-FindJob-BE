@@ -28,6 +28,11 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public Boolean existsByName(String name) {
+        return userRepository.existsByName(name);
+    }
+
+    @Override
     public Boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
