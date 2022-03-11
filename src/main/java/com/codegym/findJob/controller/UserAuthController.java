@@ -4,6 +4,7 @@ import com.codegym.findJob.dto.request.SignInFormUser;
 import com.codegym.findJob.dto.request.SignUpFormUser;
 import com.codegym.findJob.dto.response.JwtResponse;
 import com.codegym.findJob.dto.response.ResponseMessage;
+import com.codegym.findJob.email.IRegistrationService;
 import com.codegym.findJob.model.Role;
 import com.codegym.findJob.model.RoleName;
 import com.codegym.findJob.model.Users;
@@ -11,6 +12,7 @@ import com.codegym.findJob.security.jwt.JwtProvider;
 import com.codegym.findJob.security.userprinciple.UserPrinciple;
 import com.codegym.findJob.service.IRoleService;
 import com.codegym.findJob.service.IUserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,22 +29,20 @@ import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "*")
+@AllArgsConstructor
 public class UserAuthController {
 
-    @Autowired
-    IUserService userService;
+    private IUserService userService;
 
-    @Autowired
-    IRoleService roleService;
+    private IRoleService roleService;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
-    @Autowired
-    JwtProvider jwtProvider;
+    private JwtProvider jwtProvider;
+
+    private IRegistrationService registrationService;
 
     @PostMapping("/signup/user")
     public ResponseEntity<?> registerUser (@Valid @RequestBody SignUpFormUser signUpFormUser) {
@@ -72,7 +72,7 @@ public class UserAuthController {
             }
         });
         users.setRoles(roles);
-        userService.save(users);
+        registrationService.register(users);
         return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
     }
 
