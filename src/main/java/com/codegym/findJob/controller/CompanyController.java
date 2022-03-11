@@ -69,7 +69,7 @@ public class CompanyController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // feature-show-list-post-by-icCompany
+    // feature-show-list-post_by_icCompany
     @GetMapping("/post/{idCompany}")
     public ResponseEntity<List<Post>> showListPostByIdCompany(@PathVariable Long idCompany){
         return new ResponseEntity<>(companyPostService.findByIdCompany(idCompany), HttpStatus.OK);
