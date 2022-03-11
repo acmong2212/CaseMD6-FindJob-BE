@@ -66,20 +66,13 @@ public class Company {
     private String mapLink;
 //ko co j
     public Company(@NotBlank @Size(min = 3, max = 50) String name,
-                   @NotBlank @Size(max = 50) @Email String email, String description, String address, Long numberOfEmployees, String branch,
-                   String mapLink, String website, String phoneNumber, String avatar,
+                   @NotBlank @Size(max = 50) @Email String email, String description,  String avatar,
                    @NotBlank @Size(min = 6, max = 100) String encode) {
         this.name = name;
         this.email = email;
         this.avatar = avatar;
         this.password = encode;
-        this.phoneNumber = phoneNumber;
         this.description = description;
-        this.address = address;
-        this.numberOfEmployees = numberOfEmployees;
-        this.branch = branch;
-        this.website = website;
-        this.mapLink = mapLink;
     }
 
     public Company() {
