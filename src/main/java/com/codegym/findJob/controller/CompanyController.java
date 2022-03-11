@@ -27,7 +27,7 @@ public class CompanyController {
     ICompanyPostService companyPostService;
 
     @Autowired
-    ICompanyFieldService companyFieldRepository;
+    ICompanyFieldService companyFieldService;
 
 
     @GetMapping
@@ -48,7 +48,7 @@ public class CompanyController {
 
     @GetMapping("/field") //lấy ra list ngành
     public ResponseEntity<List<Field>> getAllField() {
-        return new ResponseEntity<>(companyFieldRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(companyFieldService.findAll(), HttpStatus.OK);
     }
 
     @PostMapping("/post") //tạo bài post

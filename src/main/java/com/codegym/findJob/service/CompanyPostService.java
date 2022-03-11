@@ -26,7 +26,7 @@ public class CompanyPostService implements ICompanyPostService {
 
     @Override
     public void save(Post post) {
-        String postCode = "POST" + companyService.findById(post.getCompany().getId()).getCompanyCode() + post.getField().getId();
+        String postCode = "POST" + companyService.findCompanyById(post.getCompany().getId()).get().getCompanyCode() + post.getField().getId();
         post.setPostCode(postCode);
         companyPostRepository.save(post);
     }

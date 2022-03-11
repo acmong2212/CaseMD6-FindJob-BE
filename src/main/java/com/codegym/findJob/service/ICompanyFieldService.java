@@ -4,7 +4,7 @@ import com.codegym.findJob.model.Field;
 
 import java.util.List;
 
-public interface    ICompanyFieldService {
+public interface ICompanyFieldService {
     List<Field> findAll();
-    Field findById(Long id);
+
 }
