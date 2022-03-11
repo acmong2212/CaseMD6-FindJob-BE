@@ -20,6 +20,11 @@ public class CompanyPostService implements ICompanyPostService {
     CompanyFieldRepository companyFieldRepository;
 
     @Override
+    public List<Post> findByIdCompany(Long id) {
+        return companyPostRepository.findPostByCompanyCode(id);
+    }
+
+    @Override
     public Post findById(Long id) {
         return companyPostRepository.findById(id).get();
     }

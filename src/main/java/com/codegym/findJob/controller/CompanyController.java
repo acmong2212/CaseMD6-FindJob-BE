@@ -27,7 +27,7 @@ public class CompanyController {
     ICompanyPostService companyPostService;
 
     @Autowired
-    ICompanyFieldService companyFieldService;
+    ICompanyFieldService companyFieldRepository;
 
 
     @GetMapping
@@ -48,7 +48,7 @@ public class CompanyController {
 
     @GetMapping("/field") //lấy ra list ngành
     public ResponseEntity<List<Field>> getAllField() {
-        return new ResponseEntity<>(companyFieldService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(companyFieldRepository.findAll(), HttpStatus.OK);
     }
 
     @PostMapping("/post") //tạo bài post
@@ -67,5 +67,11 @@ public class CompanyController {
     public  ResponseEntity<?> editStatusPost(@PathVariable Long id){
         companyPostService.setStatusPost(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // feature-show-list-post-by-icCompany
+    @GetMapping("/post/{idCompany}")
+    public ResponseEntity<List<Post>> showListPostByIdCompany(@PathVariable Long idCompany){
+        return new ResponseEntity<>(companyPostService.findByIdCompany(idCompany), HttpStatus.OK);
     }
 }
