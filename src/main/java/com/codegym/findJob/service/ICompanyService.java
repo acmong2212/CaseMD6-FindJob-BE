@@ -17,4 +17,5 @@ public interface ICompanyService {
     Page<Company> findAll(Pageable pageable);
     List<Company> findUsersByIdIsNotLike(Long id);
     int countUsers();
+    List<Company> findAll();
 }
