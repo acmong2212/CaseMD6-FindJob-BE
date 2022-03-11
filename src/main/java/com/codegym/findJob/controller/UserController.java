@@ -1,6 +1,6 @@
 package com.codegym.findJob.controller;
 import com.codegym.findJob.model.Users;
-import com.codegym.findJob.service.IUserService;
+import com.codegym.findJob.service.IUserService2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    IUserService userService;
+    IUserService2 userService;
 
 
     @GetMapping("/findAllUser")

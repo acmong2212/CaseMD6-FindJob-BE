@@ -2,14 +2,14 @@ package com.codegym.findJob.service.impl;
 
 import com.codegym.findJob.model.Users;
 import com.codegym.findJob.repository.IUserRepo;
-import com.codegym.findJob.service.IUserService;
+import com.codegym.findJob.service.IUserService2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserService implements IUserService {
+public class UserService2 implements IUserService2 {
 
     @Autowired
     IUserRepo userRepo;
