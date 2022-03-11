@@ -20,6 +20,7 @@ public class Post {
 
     private double price;
 
+
     // vị trí tuyển dụng
     private String jobLocation;
 
@@ -42,8 +43,10 @@ public class Post {
     // mã bài tuyển dụng
     private String postCode;
 
+    private boolean status;
+
     @ManyToOne
-    private Users users;
+    private Company company;
 
     @ManyToOne
     private Field field;
