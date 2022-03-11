@@ -64,7 +64,7 @@ public class Company {
 
     // link gg map
     private String mapLink;
-
+//ko co j
     public Company(@NotBlank @Size(min = 3, max = 50) String name,
                    @NotBlank @Size(max = 50) @Email String email, String description, String address, Long numberOfEmployees, String branch,
                    String mapLink, String website, String phoneNumber, String avatar,
@@ -104,7 +104,7 @@ public class Company {
         this.facebook = facebook;
         this.mapLink = mapLink;
     }
-
+// hello
     public Long getId() {
         return id;
     }
