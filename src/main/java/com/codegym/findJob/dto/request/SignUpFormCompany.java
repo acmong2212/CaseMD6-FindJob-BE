@@ -10,10 +10,4 @@ public class SignUpFormCompany {
     private String email;
     private String description;
     private String avatar;
-    private String address;
-    private Long numberOfEmployees;
-    private String branch;
-    private String mapLink;
-    private String website;
-    private String phoneNumber;
 }

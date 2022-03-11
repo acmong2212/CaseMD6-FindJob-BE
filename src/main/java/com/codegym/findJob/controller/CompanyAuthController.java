@@ -51,7 +51,7 @@ public class CompanyAuthController {
         }
 
         String text = signUpFormCompany.getName();
-        char[] companyCode = new char[30];
+        char[] companyCode = new char[3];
         text.getChars(0, 3, companyCode, 0);
 
         Random number = new Random();
@@ -63,12 +63,6 @@ public class CompanyAuthController {
                 signUpFormCompany.getName(),
                 signUpFormCompany.getEmail(),
                 signUpFormCompany.getDescription(),
-                signUpFormCompany.getAddress(),
-                signUpFormCompany.getNumberOfEmployees(),
-                signUpFormCompany.getBranch(),
-                signUpFormCompany.getMapLink(),
-                signUpFormCompany.getWebsite(),
-                signUpFormCompany.getPhoneNumber(),
                 signUpFormCompany.getAvatar(),
                 passwordEncoder.encode(signUpFormCompany.getPassword()));
                 company.setCompanyCode(companyCodeResult);
