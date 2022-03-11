@@ -31,7 +31,7 @@ public class Company {
     @Email
     private String email;
 
-    @JsonIgnore
+//    @JsonIgnore
     @NotBlank
     @Size(max = 100)
     private String password;
@@ -64,30 +64,23 @@ public class Company {
 
     // link gg map
     private String mapLink;
-//ko co j
+
     public Company(@NotBlank @Size(min = 3, max = 50) String name,
-                   @NotBlank @Size(max = 50) @Email String email, String description, String address, Long numberOfEmployees, String branch,
-                   String mapLink, String website, String phoneNumber, String avatar,
-                   @NotBlank @Size(min = 6, max = 100) String encode) {
+                 @NotBlank @Size(max = 50) @Email String email,
+                 String avatar,
+                 @NotBlank @Size(min = 6, max = 100) String encode) {
         this.name = name;
         this.email = email;
         this.avatar = avatar;
         this.password = encode;
-        this.phoneNumber = phoneNumber;
-        this.description = description;
-        this.address = address;
-        this.numberOfEmployees = numberOfEmployees;
-        this.branch = branch;
-        this.website = website;
-        this.mapLink = mapLink;
     }
 
     public Company() {
     }
 
-    public Company(Long id, String name, String email, String password, String avatar, String companyCode, String phoneNumber,
-                   String description, String address, Long numberOfEmployees, String branch, String fieldOfActivity, String website,
-                   String facebook, String mapLink) {
+    public Company(Long id, String name, String email, String password, String avatar, String companyCode,
+                 String phoneNumber, String description, String address, Long numberOfEmployees, String branch, String fieldOfActivity,
+                 String website, String facebook, String mapLink) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -104,7 +97,7 @@ public class Company {
         this.facebook = facebook;
         this.mapLink = mapLink;
     }
-// hello
+
     public Long getId() {
         return id;
     }
