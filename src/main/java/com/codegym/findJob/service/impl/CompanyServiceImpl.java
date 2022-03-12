@@ -68,4 +68,9 @@ public class CompanyServiceImpl implements ICompanyService {
     public int countUsers() {
         return companyRepository.countUsers();
     }
+
+    @Override
+    public List<Company> findAll() {
+        return companyRepository.findAll();
+    }
 }
