@@ -14,6 +14,8 @@ public interface ICompanyRepository extends JpaRepository<Company, Long> {
     Optional<Company> findByEmail(String email);
     Boolean existsByName(String name);
     Boolean existsByEmail(String email);
+
+    Company findByEmailAndPassword(String email,String password);
     @Query(nativeQuery = true, value = "select count(id) from company")
     int countUsers();
 }

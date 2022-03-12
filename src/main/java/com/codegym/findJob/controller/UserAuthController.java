@@ -24,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -84,7 +85,8 @@ public class UserAuthController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtProvider.createToken(authentication);
+        //@TODo refactor
+        String token = jwtProvider.createToken("authentication", Collections.EMPTY_MAP);
 
         UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
         Users users = userService.findByEmail(userPrinciple.getEmail()).get();

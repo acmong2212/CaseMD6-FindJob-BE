@@ -1,9 +1,13 @@
 package com.codegym.findJob.security.jwt;
 
+import com.codegym.findJob.security.userprinciple.InfoPriciple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,27 +19,43 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class JwtTokenFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenFilter.class);
 
     @Autowired
-    private JwtProvider jwtProvider;
+    private JwtProvider jwtProvider = new JwtProvider();
 
     @Autowired
     private UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+
+        SecurityContext context = SecurityContextHolder.getContext();
+        InfoPriciple principle = new InfoPriciple();
         try {
             String token = getJwt(request);
             if (token != null && jwtProvider.validateToken(token)) {
-                String username = jwtProvider.getEmailFromToken(token);
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                List<GrantedAuthority> authorities = new ArrayList<>();
+
+                Map<String, Object> claims  = jwtProvider.getClaims(token);
+                if((boolean)claims.get("isCompany")){
+                    authorities.add(new SimpleGrantedAuthority("ROLE_COMPANY"));
+                    principle.setCompanyId( Long.parseLong(claims.get("COMPANY_ID").toString()));
+                    //@TOdo setname, email
+                }else {
+                    //@Todo set userId, name, email
+                    authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+                }
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
+                        principle, null, authorities);
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                context.setAuthentication(authenticationToken);
             }
         }catch (Exception e) {
                 logger.error("Can't set user authentication");

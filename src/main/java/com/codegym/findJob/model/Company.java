@@ -21,19 +21,12 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(min = 3, max = 50)
     private String name;
 
     @NaturalId(mutable = true)
-    @NotBlank
-    @Size(max = 50)
-    @Email
     private String email;
 
     @JsonIgnore
-    @NotBlank
-    @Size(max = 100)
     private String password;
 
     @Lob
@@ -64,7 +57,7 @@ public class Company {
 
     // link gg map
     private String mapLink;
-//ko co j
+
     public Company(@NotBlank @Size(min = 3, max = 50) String name,
                    @NotBlank @Size(max = 50) @Email String email, String description,  String avatar,
                    @NotBlank @Size(min = 6, max = 100) String encode) {
