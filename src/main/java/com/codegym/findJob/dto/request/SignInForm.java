@@ -1,13 +1,13 @@
 package com.codegym.findJob.dto.request;
 
-public class SignInFormUser {
+public class SignInForm {
     private String email;
     private String password;
 
-    public SignInFormUser() {
+    public SignInForm() {
     }
 
-    public SignInFormUser(String email, String password) {
+    public SignInForm(String email, String password) {
         this.email = email;
         this.password = password;
     }

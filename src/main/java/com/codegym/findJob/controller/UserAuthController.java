@@ -1,6 +1,6 @@
 package com.codegym.findJob.controller;
 
-import com.codegym.findJob.dto.request.SignInFormUser;
+import com.codegym.findJob.dto.request.SignInForm;
 import com.codegym.findJob.dto.request.SignUpFormUser;
 import com.codegym.findJob.dto.response.JwtResponse;
 import com.codegym.findJob.dto.response.ResponseMessage;
@@ -13,7 +13,6 @@ import com.codegym.findJob.security.userprinciple.UserPrinciple;
 import com.codegym.findJob.service.IRoleService;
 import com.codegym.findJob.service.IUserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -77,7 +76,7 @@ public class UserAuthController {
     }
 
     @PostMapping("/signin/user")
-    public ResponseEntity<?> login(@Valid @RequestBody SignInFormUser signUpFormUser){
+    public ResponseEntity<?> login(@Valid @RequestBody SignInForm signUpFormUser){
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(signUpFormUser.getEmail(), signUpFormUser.getPassword())

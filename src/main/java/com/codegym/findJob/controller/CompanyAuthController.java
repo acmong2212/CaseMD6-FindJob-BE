@@ -1,10 +1,12 @@
 package com.codegym.findJob.controller;
 
-import com.codegym.findJob.dto.request.SignInFormUser;
+import com.codegym.findJob.dto.request.SignInForm;
 import com.codegym.findJob.dto.request.SignUpFormCompany;
 import com.codegym.findJob.dto.response.JwtResponseCompany;
 import com.codegym.findJob.dto.response.ResponseMessage;
 import com.codegym.findJob.model.Company;
+import com.codegym.findJob.model.Role;
+import com.codegym.findJob.model.RoleName;
 import com.codegym.findJob.security.jwt.JwtProvider;
 import com.codegym.findJob.security.userprinciple.UserPrinciple;
 import com.codegym.findJob.service.ICompanyService;
@@ -20,7 +22,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -66,14 +70,31 @@ public class CompanyAuthController {
                 signUpFormCompany.getAvatar(),
                 passwordEncoder.encode(signUpFormCompany.getPassword()));
                 company.setCompanyCode(companyCodeResult);
-        System.out.println(companyCodeResult);
 
+        Set<String> strRoles = signUpFormCompany.getRoles();
+        Set<Role> roles = new HashSet<>();
+        strRoles.forEach(role -> {
+            switch (role) {
+                case "ADMIN" :
+                    Role adRole = roleService.findByName(RoleName.ADMIN).orElseThrow( ()-> new RuntimeException("Role not found"));
+                    roles.add(adRole);
+                    break;
+                case "COMPANY" :
+                    Role comRole = roleService.findByName(RoleName.COMPANY).orElseThrow( ()-> new RuntimeException("Role not found"));
+                    roles.add(comRole);
+                    break;
+                default:
+                    Role usRole = roleService.findByName(RoleName.USER).orElseThrow( ()-> new RuntimeException("Role not found"));
+                    roles.add(usRole);
+            }
+        });
+        company.setRoles(roles);
         companyService.save(company);
         return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
     }
 
     @PostMapping("/signin/company")
-    public ResponseEntity<?> login(@Valid @RequestBody SignInFormUser signInForm){
+    public ResponseEntity<?> login(@Valid @RequestBody SignInForm signInForm){
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(signInForm.getEmail(), signInForm.getPassword())

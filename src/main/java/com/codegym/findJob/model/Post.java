@@ -18,7 +18,7 @@ public class Post {
     @Size(min = 3, max = 50)
     private String title;
 
-    private double price;
+    private double salary;
 
 
     // vị trí tuyển dụng
