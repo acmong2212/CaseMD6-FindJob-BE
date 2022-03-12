@@ -80,7 +80,6 @@ public class CompanyAuthController {
     @PostMapping("/update")
     public ResponseEntity<String> update(Authentication auth){
         SecurityContext context = SecurityContextHolder.getContext();
-
         context.getAuthentication();
         return new ResponseEntity(HttpStatus.OK);
     }

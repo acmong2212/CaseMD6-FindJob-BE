@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,7 @@ import java.util.Set;
 @RestController
 @CrossOrigin(origins = "*")
 @AllArgsConstructor
+@RequestMapping("users")
 public class UserAuthController {
 
     private IUserService userService;
@@ -39,13 +41,9 @@ public class UserAuthController {
 
     private PasswordEncoder passwordEncoder;
 
-    private AuthenticationManager authenticationManager;
-
-    private JwtProvider jwtProvider;
-
     private IRegistrationService registrationService;
 
-    @PostMapping("/signup/user")
+    @PostMapping("/register")
     public ResponseEntity<?> registerUser (@Valid @RequestBody SignUpFormUser signUpFormUser) {
         if(userService.existsByEmail(signUpFormUser.getEmail())){
             return new ResponseEntity<>(new ResponseMessage("email_existed"), HttpStatus.OK);
@@ -77,34 +75,16 @@ public class UserAuthController {
         return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
     }
 
-    @PostMapping("/signin/user")
-    public ResponseEntity<?> login(@Valid @RequestBody SignInFormUser signUpFormUser){
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(signUpFormUser.getEmail(), signUpFormUser.getPassword())
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        //@TODo refactor
-        String token = jwtProvider.createToken("authentication", Collections.EMPTY_MAP);
-
-        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
-        Users users = userService.findByEmail(userPrinciple.getEmail()).get();
-        return ResponseEntity.ok(new JwtResponse(token, users));
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody SignInFormUser signInForm){
+        String token = userService.login(signInForm);
+        return new ResponseEntity(token,HttpStatus.OK);
     }
 
-//    @PostMapping("/signin/user")
-//    public ResponseEntity<?> login(@Valid @RequestBody SignInFormUser signUpFormUser){
-//
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(signUpFormUser.getEmail(), signUpFormUser.getPassword())
-//        );
-//
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        String token = jwtProvider.createToken(authentication);
-//
-//        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
-//        Users users = userService.findByEmail(userPrinciple.getEmail()).get();
-//        return ResponseEntity.ok(new JwtResponse(token, users));
+//    @PostMapping("/update")
+//    public ResponseEntity<String> update(Authentication auth){
+//        SecurityContext context = SecurityContextHolder.getContext();
+//        context.getAuthentication();
+//        return new ResponseEntity(HttpStatus.OK);
 //    }
 }

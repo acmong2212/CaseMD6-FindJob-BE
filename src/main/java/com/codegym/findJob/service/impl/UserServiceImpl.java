@@ -1,23 +1,40 @@
 package com.codegym.findJob.service.impl;
 
+import com.codegym.findJob.dto.request.SignInFormUser;
+import com.codegym.findJob.model.Company;
 import com.codegym.findJob.model.Users;
 import com.codegym.findJob.repository.IUserRepository;
+import com.codegym.findJob.security.jwt.JwtProvider;
 import com.codegym.findJob.service.IUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements IUserService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
+    @Autowired
+    PasswordEncoder encoder;
+
     @Autowired
     IUserRepository userRepository;
+
+    @Autowired
+    JwtProvider token;
 
     @PersistenceContext
     EntityManager em;
@@ -63,6 +80,25 @@ public class UserServiceImpl implements IUserService {
     @Override
     public int countUsers() {
         return userRepository.countUsers();
+    }
+
+    @Override
+    public String login(SignInFormUser signInForm) {
+        Optional<Users> users = userRepository.findByEmail(signInForm.getEmail());
+
+        if (users.isEmpty()) {
+            logger.error("User not exist");
+        } else if (encoder.matches(signInForm.getPassword(), users.get().getPassword())) {
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("USER_ID", users.get().getId());
+            claims.put("COMPANY_ID", null);
+            claims.put("isCompany", false);
+
+            return token.createToken("USER_TOKEN", claims);
+        } else {
+            logger.error("Email or password incorrect");
+        }
+        return null;
     }
 
 }

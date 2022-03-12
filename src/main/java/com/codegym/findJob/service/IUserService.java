@@ -1,5 +1,6 @@
 package com.codegym.findJob.service;
 
+import com.codegym.findJob.dto.request.SignInFormUser;
 import com.codegym.findJob.model.Users;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,4 +17,5 @@ public interface IUserService {
     Page<Users> findAll(Pageable pageable);
     List<Users> findUsersByIdIsNotLike(Long id);
     int countUsers();
+    String login(SignInFormUser signInForm);
 }
