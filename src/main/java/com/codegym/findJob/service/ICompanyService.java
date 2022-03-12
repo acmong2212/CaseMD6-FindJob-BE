@@ -21,4 +21,5 @@ public interface ICompanyService {
 
     String login(SignInFormUser signInForm);
     List<Company> findAll();
+    void saveEdit(Company company);
 }
