@@ -92,4 +92,19 @@ public class UserAuthController {
         Users users = userService.findByEmail(userPrinciple.getEmail()).get();
         return ResponseEntity.ok(new JwtResponse(token, users));
     }
+
+//    @PostMapping("/signin/user")
+//    public ResponseEntity<?> login(@Valid @RequestBody SignInFormUser signUpFormUser){
+//
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(signUpFormUser.getEmail(), signUpFormUser.getPassword())
+//        );
+//
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        String token = jwtProvider.createToken(authentication);
+//
+//        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
+//        Users users = userService.findByEmail(userPrinciple.getEmail()).get();
+//        return ResponseEntity.ok(new JwtResponse(token, users));
+//    }
 }

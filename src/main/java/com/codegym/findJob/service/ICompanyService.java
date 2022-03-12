@@ -20,4 +20,5 @@ public interface ICompanyService {
     int countUsers();
 
     String login(SignInFormUser signInForm);
+    List<Company> findAll();
 }

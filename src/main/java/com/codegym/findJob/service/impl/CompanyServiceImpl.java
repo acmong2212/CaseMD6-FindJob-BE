@@ -103,4 +103,9 @@ public class CompanyServiceImpl implements ICompanyService {
         }
         return null;
     }
+
+    @Override
+    public List<Company> findAll() {
+        return repo.findAll();
+    }
 }

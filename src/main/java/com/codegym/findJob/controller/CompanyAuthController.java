@@ -73,9 +73,7 @@ public class CompanyAuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@Valid @RequestBody SignInFormUser signInForm){
-
         String token = companyService.login(signInForm);
-
         return new ResponseEntity(token,HttpStatus.OK);
     }
 
