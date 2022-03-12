@@ -18,4 +18,5 @@ public interface ICompanyService {
     List<Company> findUsersByIdIsNotLike(Long id);
     int countUsers();
     List<Company> findAll();
+    void saveEdit(Company company);
 }

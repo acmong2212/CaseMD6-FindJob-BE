@@ -35,7 +35,7 @@ public class CompanyController {
 
     @PutMapping("")// sửa công ty
     public ResponseEntity<?> editCompanyInformation(@RequestBody Company company) {
-        companyService.save(company);
+        companyService.saveEdit(company);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
