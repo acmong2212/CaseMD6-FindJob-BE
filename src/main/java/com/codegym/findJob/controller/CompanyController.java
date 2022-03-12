@@ -71,4 +71,5 @@ public class CompanyController {
     public ResponseEntity<List<Post>> findPostByIdCompany(@PathVariable Long idCompany){
         return new ResponseEntity<>(companyPostService.findPostByIdCompany(idCompany), HttpStatus.OK);
     }
+
 }

@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface UserRepoDai extends JpaRepository<Post, Long> {
-    @Query(nativeQuery = true, value = "SELECT * FROM `case-md6-findjob`.post join company on post.company_id = company.id where company.name like %:keyword%")
+    @Query(nativeQuery = true, value = "SELECT * FROM `case-md6-findjob`.post join company on post.company_id = company.id where company.name like %:keyword% and post.status = true ")
     List<Post> findPostByKeyWord(@Param("keyword") String keyword);
 }
