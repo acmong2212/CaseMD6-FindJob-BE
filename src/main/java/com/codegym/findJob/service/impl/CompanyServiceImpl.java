@@ -113,7 +113,7 @@ public class CompanyServiceImpl implements ICompanyService {
     @Override
     public void saveEdit(Company company) {
         if (company.getPassword() == null){
-            company.setPassword(companyRepository.findById(company.getId()).get().getPassword());
+            company.setPassword(findById(company.getId()).get().getPassword());
         }
         save(company);
     }
