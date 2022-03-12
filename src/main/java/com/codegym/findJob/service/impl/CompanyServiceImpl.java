@@ -34,6 +34,7 @@ public class CompanyServiceImpl implements ICompanyService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+
     @PersistenceContext
     EntityManager em;
 
@@ -107,5 +108,13 @@ public class CompanyServiceImpl implements ICompanyService {
     @Override
     public List<Company> findAll() {
         return repo.findAll();
+    }
+
+    @Override
+    public void saveEdit(Company company) {
+        if (company.getPassword() == null){
+            company.setPassword(companyRepository.findById(company.getId()).get().getPassword());
+        }
+        save(company);
     }
 }
