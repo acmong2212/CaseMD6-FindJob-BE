@@ -2,15 +2,20 @@ package com.codegym.findJob.controller;
 
 import com.codegym.findJob.dto.request.SignInFormUser;
 import com.codegym.findJob.dto.request.CompanyRegisterReq;
+import com.codegym.findJob.dto.response.JwtResponse;
+import com.codegym.findJob.dto.response.JwtResponseCompany;
 import com.codegym.findJob.dto.response.ResponseMessage;
 import com.codegym.findJob.model.Company;
+import com.codegym.findJob.model.Users;
 import com.codegym.findJob.security.jwt.JwtProvider;
+import com.codegym.findJob.security.userprinciple.UserPrinciple;
 import com.codegym.findJob.service.ICompanyService;
 import com.codegym.findJob.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -72,16 +77,23 @@ public class CompanyAuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody SignInFormUser signInForm){
+    public ResponseEntity<?> login(@Valid @RequestBody SignInFormUser signInForm){
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(signInForm.getEmail(), signInForm.getPassword())
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = companyService.login(signInForm);
-        return new ResponseEntity(token,HttpStatus.OK);
+
+        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
+        Company company = companyService.findByEmail(userPrinciple.getEmail()).get();
+        return ResponseEntity.ok(new JwtResponseCompany(token, company));
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<String> update(Authentication auth){
-        SecurityContext context = SecurityContextHolder.getContext();
-
-        context.getAuthentication();
-        return new ResponseEntity(HttpStatus.OK);
-    }
+//    @PostMapping("/update")
+//    public ResponseEntity<String> update(Authentication auth){
+//        SecurityContext context = SecurityContextHolder.getContext();
+//        context.getAuthentication();
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
 }

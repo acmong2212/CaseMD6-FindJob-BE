@@ -3,8 +3,11 @@ package com.codegym.findJob.service.impl;
 import com.codegym.findJob.dto.request.SignInFormUser;
 import com.codegym.findJob.model.Company;
 import com.codegym.findJob.repository.ICompanyRepository;
+import com.codegym.findJob.security.jwt.JwtEntryPoint;
 import com.codegym.findJob.security.jwt.JwtProvider;
 import com.codegym.findJob.service.ICompanyService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +25,9 @@ import java.util.Optional;
 
 @Service
 public class CompanyServiceImpl implements ICompanyService {
+
+    private static final Logger logger = LoggerFactory.getLogger(CompanyServiceImpl.class);
+
     @Autowired
     ICompanyRepository repo;
 
@@ -89,18 +95,17 @@ public class CompanyServiceImpl implements ICompanyService {
     public String login(SignInFormUser signInForm) {
         Optional<Company> cpn = repo.findByEmail(signInForm.getEmail());
 
-        if(cpn.isEmpty()){
-            //@Todo thrown exception Company not exist
-        }else if(encoder.matches(signInForm.getPassword(),cpn.get().getPassword())){
-
+        if (cpn.isEmpty()) {
+            logger.error("Company not exist");
+        } else if (encoder.matches(signInForm.getPassword(), cpn.get().getPassword())) {
             Map<String, Object> claims = new HashMap<>();
-            claims.put("USER_ID",null);
-            claims.put("COMPANY_ID",cpn.get().getId());
-            claims.put("isCompany",true);
+            claims.put("USER_ID", null);
+            claims.put("COMPANY_ID", cpn.get().getId());
+            claims.put("isCompany", true);
 
-            return token.createToken("COMPANY_TOKEN",claims);
-        }else {
-            //@TODO email or password incorrect
+            return token.createToken("COMPANY_TOKEN", claims);
+        } else {
+            logger.error("Email or password incorrect");
         }
         return null;
     }
