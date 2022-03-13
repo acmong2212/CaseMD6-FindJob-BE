@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.sql.Date;
 
 @Data
 @Entity
@@ -18,17 +18,18 @@ public class Post {
     @Size(min = 3, max = 50)
     private String title;
 
-    private double salary;
-
+    private String salary;
 
     // vị trí tuyển dụng
     private String jobLocation;
+
+    private String position;
 
     // kinh nghiệm
     private Long experience;
 
     // Loại công việc
-    private boolean jobType;
+    private String jobType;
 
     // Ngày hết hạn
     private Date applicationDeadline;
