@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/post")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class PostController {
 
     @Autowired
@@ -25,7 +25,5 @@ public class PostController {
     public ResponseEntity<?> findPostById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(postService.findPostById(id), HttpStatus.OK);
     }
-
-
 
 }
