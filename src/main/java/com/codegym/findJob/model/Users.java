@@ -15,9 +15,6 @@ import java.util.Set;
 @Entity
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = {
-                "username"
-        }),
-        @UniqueConstraint(columnNames = {
                 "email"
         })
 })
@@ -29,10 +26,6 @@ public class Users {
     @NotBlank
     @Size(min = 3, max = 50)
     private String name;
-
-    @NotBlank
-    @Size(min = 3, max = 50)
-    private String username;
 
     @NaturalId(mutable = true)
     @NotBlank
@@ -50,45 +43,22 @@ public class Users {
 
     private String cv;
 
-    // mã doanh nghiệp
-    private String companyCode;
-
     private String phoneNumber;
 
-    @Lob
-    private String description;
-
     private String address;
-
-    // Số lượng nhân viên
-    private Long numberOfEmployees;
-
-    // Chi nhánh
-    private String branch;
-
-    // Lĩnh vực hoạt động
-    private String fieldOfActivity;
-
-    private String website;
-
-    private String facebook;
-
-    // link gg map
-    private String mapLink;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     Set<Role> roles = new HashSet<>();
 
-
     public Users(@NotBlank @Size(min = 3, max = 50) String name,
-                 @NotBlank @Size(min = 3, max = 50) String username,
                  @NotBlank @Size(max = 50) @Email String email,
+                 String phoneNumber,
                  String avatar,
                  @NotBlank @Size(min = 6, max = 100) String encode) {
         this.name = name;
-        this.username = username;
         this.email = email;
+        this.phoneNumber = phoneNumber;
         this.avatar = avatar;
         this.password = encode;
     }
@@ -96,26 +66,16 @@ public class Users {
     public Users() {
     }
 
-    public Users(Long id, String name, String username, String email, String password, String avatar, String cv, String companyCode,
-                 String phoneNumber, String description, String address, Long numberOfEmployees, String branch, String fieldOfActivity,
-                 String website, String facebook, String mapLink, Set<Role> roles) {
+    public Users(Long id, String name, String email, String password, String avatar, String cv, String phoneNumber, String address,
+                 Set<Role> roles) {
         this.id = id;
         this.name = name;
-        this.username = username;
         this.email = email;
         this.password = password;
         this.avatar = avatar;
         this.cv = cv;
-        this.companyCode = companyCode;
         this.phoneNumber = phoneNumber;
-        this.description = description;
         this.address = address;
-        this.numberOfEmployees = numberOfEmployees;
-        this.branch = branch;
-        this.fieldOfActivity = fieldOfActivity;
-        this.website = website;
-        this.facebook = facebook;
-        this.mapLink = mapLink;
         this.roles = roles;
     }
 
@@ -133,14 +93,6 @@ public class Users {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getEmail() {
@@ -175,14 +127,6 @@ public class Users {
         this.cv = cv;
     }
 
-    public String getCompanyCode() {
-        return companyCode;
-    }
-
-    public void setCompanyCode(String companyCode) {
-        this.companyCode = companyCode;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -191,68 +135,12 @@ public class Users {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getAddress() {
         return address;
     }
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public Long getNumberOfEmployees() {
-        return numberOfEmployees;
-    }
-
-    public void setNumberOfEmployees(Long numberOfEmployees) {
-        this.numberOfEmployees = numberOfEmployees;
-    }
-
-    public String getBranch() {
-        return branch;
-    }
-
-    public void setBranch(String branch) {
-        this.branch = branch;
-    }
-
-    public String getFieldOfActivity() {
-        return fieldOfActivity;
-    }
-
-    public void setFieldOfActivity(String fieldOfActivity) {
-        this.fieldOfActivity = fieldOfActivity;
-    }
-
-    public String getWebsite() {
-        return website;
-    }
-
-    public void setWebsite(String website) {
-        this.website = website;
-    }
-
-    public String getFacebook() {
-        return facebook;
-    }
-
-    public void setFacebook(String facebook) {
-        this.facebook = facebook;
-    }
-
-    public String getMapLink() {
-        return mapLink;
-    }
-
-    public void setMapLink(String mapLink) {
-        this.mapLink = mapLink;
     }
 
     public Set<Role> getRoles() {

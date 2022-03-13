@@ -18,16 +18,19 @@ public class Post {
     @Size(min = 3, max = 50)
     private String title;
 
-    private double price;
+    private String salary;
 
     // vị trí tuyển dụng
+    private String position;
+
+    // địa điểm làm việc
     private String jobLocation;
 
     // kinh nghiệm
     private Long experience;
 
     // Loại công việc
-    private boolean jobType;
+    private String jobType;
 
     // Ngày hết hạn
     private Date applicationDeadline;
@@ -45,7 +48,7 @@ public class Post {
     private boolean status;
 
     @ManyToOne
-    private Users users;
+    private Company company;
 
     @ManyToOne
     private Field field;
