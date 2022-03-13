@@ -2,6 +2,8 @@ package com.codegym.findJob.service.impl;
 
 import com.codegym.findJob.dto.request.SignInFormUser;
 import com.codegym.findJob.model.Company;
+import com.codegym.findJob.model.Post;
+import com.codegym.findJob.repository.CompanyRepository;
 import com.codegym.findJob.repository.ICompanyRepository;
 import com.codegym.findJob.security.jwt.JwtProvider;
 import com.codegym.findJob.service.ICompanyService;
@@ -15,16 +17,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CompanyServiceImpl implements ICompanyService {
     @Autowired
     ICompanyRepository repo;
 
+    @Autowired
+    CompanyRepository companyRepository;
     @Autowired
     PasswordEncoder encoder;
 
@@ -117,4 +118,12 @@ public class CompanyServiceImpl implements ICompanyService {
         }
         save(company);
     }
+
+    @Override
+    public Set<Post> highestRecruitmentDemand() {
+        Set<Post> companies = companyRepository.findListCompanyShorted();
+        System.out.println(companies);
+        return companies;
+    }
+
 }
