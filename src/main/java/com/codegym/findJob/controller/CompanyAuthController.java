@@ -2,22 +2,18 @@ package com.codegym.findJob.controller;
 
 import com.codegym.findJob.dto.request.SignInFormUser;
 import com.codegym.findJob.dto.request.CompanyRegisterReq;
-import com.codegym.findJob.dto.response.JwtResponse;
 import com.codegym.findJob.dto.response.JwtResponseCompany;
 import com.codegym.findJob.dto.response.ResponseMessage;
+import com.codegym.findJob.email.IRegistrationService;
 import com.codegym.findJob.model.Company;
-import com.codegym.findJob.model.Users;
-import com.codegym.findJob.security.jwt.JwtProvider;
 import com.codegym.findJob.security.userprinciple.UserPrinciple;
 import com.codegym.findJob.service.ICompanyService;
-import com.codegym.findJob.service.IRoleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -28,22 +24,16 @@ import java.util.Random;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("company")
+@AllArgsConstructor
 public class CompanyAuthController {
 
-    @Autowired
-    ICompanyService companyService;
+    private ICompanyService companyService;
 
-    @Autowired
-    IRoleService roleService;
+    private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    private AuthenticationManager authenticationManager;
 
-    @Autowired
-    AuthenticationManager authenticationManager;
-
-    @Autowired
-    JwtProvider jwtProvider;
+    private IRegistrationService registrationService;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerCompany (@Valid @RequestBody CompanyRegisterReq request) {
@@ -72,7 +62,7 @@ public class CompanyAuthController {
                 company.setCompanyCode(companyCodeResult);
         System.out.println(companyCodeResult);
 
-        companyService.save(company);
+        registrationService.registerCompany(company);
         return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
     }
 
