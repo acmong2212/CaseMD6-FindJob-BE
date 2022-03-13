@@ -55,10 +55,16 @@ public class CompanyController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/post")// sửa 1 bài post
-    public ResponseEntity<?> editPost(@RequestBody Post post){
+    @PutMapping("/post/{id}")// sửa 1 bài post
+    public ResponseEntity<?> editPost( @PathVariable Long id, @RequestBody Post post){
+        post.setId(id);
         companyPostService.save(post);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public Post findPostById(@PathVariable Long id){
+        return companyPostService.findById(id);
     }
 
     @PutMapping("/post/{id}")// sửa trạng thái status
