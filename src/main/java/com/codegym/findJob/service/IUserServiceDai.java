@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IUserServiceDai {
     List<Post> findPostByKeyword(String keyword);
+    List<Post> findByCity(String city);
 }

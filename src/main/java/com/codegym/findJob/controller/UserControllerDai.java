@@ -22,4 +22,10 @@ public class UserControllerDai {
         return new ResponseEntity<>(userServiceDai.findPostByKeyword(keyword), HttpStatus.OK);
     }
 
+    //tính năng 17: feature-17-find-Post-by-city
+    @GetMapping("/getByCity/{city}")
+    public ResponseEntity<List<Post>> findByCity(@PathVariable String city){
+        return new ResponseEntity<>(userServiceDai.findByCity(city), HttpStatus.OK);
+    }
+
 }
