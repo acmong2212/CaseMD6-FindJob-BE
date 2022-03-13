@@ -4,6 +4,7 @@ import com.codegym.findJob.model.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,4 +13,7 @@ import java.util.List;
 public interface UserRepoDai extends JpaRepository<Post, Long> {
     @Query(nativeQuery = true, value = "SELECT * FROM `case-md6-findjob`.post join company on post.company_id = company.id where company.name like %:keyword% and post.status = true ")
     List<Post> findPostByKeyWord(@Param("keyword") String keyword);
+
+    @Query(nativeQuery = true, value = "select * from post where job_location like %:address% and field_id = :field_id and status = true;")
+    List<Post> findByFieldAndAddress(@Param("address") String address, @Param("field_id") Long field_id);
 }

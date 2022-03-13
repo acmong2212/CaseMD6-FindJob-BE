@@ -18,8 +18,13 @@ public class UserControllerDai {
 
 
     @GetMapping("/getPostByKeyword/{keyword}") //tính năng 10
-    private ResponseEntity<List<Post>> findByKeyword(@PathVariable String keyword){
+    public ResponseEntity<List<Post>> findByKeyword(@PathVariable String keyword){
         return new ResponseEntity<>(userServiceDai.findPostByKeyword(keyword), HttpStatus.OK);
     }
 
+    //11. Là người dùng tôi muốn tìm kiếm job theo ngành nghề, địa chỉ.
+    @GetMapping("/getPostByFieldAndAddress/{idField}&&{address}")
+    public ResponseEntity<List<Post>> findByFieldAndAddress( @PathVariable Long idField, @PathVariable String address){
+        return new ResponseEntity<>(userServiceDai.findByFieldAndAddress(address, idField), HttpStatus.OK);
+    }
 }

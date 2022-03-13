@@ -13,7 +13,11 @@ public class UserServiceDai implements IUserServiceDai {
     UserRepoDai userRepoDai;
     @Override
     public List<Post> findPostByKeyword(String keyword) {
-        System.err.println(keyword);
         return userRepoDai.findPostByKeyWord(keyword);
+    }
+
+    @Override
+    public List<Post> findByFieldAndAddress(String address, Long field_id) {
+        return userRepoDai.findByFieldAndAddress(address, field_id);
     }
 }
