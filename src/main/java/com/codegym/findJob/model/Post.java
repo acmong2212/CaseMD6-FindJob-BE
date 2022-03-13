@@ -18,7 +18,7 @@ public class Post {
     @Size(min = 3, max = 50)
     private String title;
 
-    private double price;
+    private String salary;
 
     // vị trí tuyển dụng
     private String position;
@@ -30,7 +30,7 @@ public class Post {
     private Long experience;
 
     // Loại công việc
-    private boolean jobType;
+    private String jobType;
 
     // Ngày hết hạn
     private Date applicationDeadline;

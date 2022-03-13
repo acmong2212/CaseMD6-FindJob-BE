@@ -6,8 +6,11 @@ import com.codegym.findJob.dto.response.JwtResponseCompany;
 import com.codegym.findJob.dto.response.ResponseMessage;
 import com.codegym.findJob.email.IRegistrationService;
 import com.codegym.findJob.model.Company;
+import com.codegym.findJob.model.Role;
+import com.codegym.findJob.model.RoleName;
 import com.codegym.findJob.security.userprinciple.UserPrinciple;
 import com.codegym.findJob.service.ICompanyService;
+import com.codegym.findJob.service.IRoleService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +22,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -34,6 +39,8 @@ public class CompanyAuthController {
     private AuthenticationManager authenticationManager;
 
     private IRegistrationService registrationService;
+
+    private IRoleService roleService;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerCompany (@Valid @RequestBody CompanyRegisterReq request) {
@@ -68,16 +75,8 @@ public class CompanyAuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody SignInFormUser signInForm){
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(signInForm.getEmail(), signInForm.getPassword())
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = companyService.login(signInForm);
-
-        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
-        Company company = companyService.findByEmail(userPrinciple.getEmail()).get();
-        return ResponseEntity.ok(new JwtResponseCompany(token, company));
+        return ResponseEntity.ok(new JwtResponseCompany(token));
     }
 
 //    @PostMapping("/update")

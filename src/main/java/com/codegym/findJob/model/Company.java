@@ -8,6 +8,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -73,7 +75,7 @@ public class Company {
 
     public Company(Long id, String name, String email, String password, String avatar, String companyCode, String phoneNumber,
                    String description, String address, Long numberOfEmployees, String branch, String fieldOfActivity, String website,
-                   String facebook, String mapLink) {
+                   String facebook, String mapLink, Set<Role> roles) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -90,7 +92,7 @@ public class Company {
         this.facebook = facebook;
         this.mapLink = mapLink;
     }
-// hello
+
     public Long getId() {
         return id;
     }

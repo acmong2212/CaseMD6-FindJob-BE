@@ -7,9 +7,8 @@ public class JwtResponseCompany {
     private String type = "Bearer";
     private Company company;
 
-    public JwtResponseCompany(String token, Company company) {
+    public JwtResponseCompany(String token) {
         this.token = token;
-        this.company = company;
     }
 
     public String getToken() {
