@@ -43,6 +43,8 @@ public class UserAuthController {
 
     private IRegistrationService registrationService;
 
+    private AuthenticationManager authenticationManager;
+
     @PostMapping("/register")
     public ResponseEntity<?> registerUser (@Valid @RequestBody SignUpFormUser signUpFormUser) {
         if(userService.existsByEmail(signUpFormUser.getEmail())){
@@ -77,8 +79,17 @@ public class UserAuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody SignInFormUser signInForm){
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(signInForm.getEmail(), signInForm.getPassword())
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = userService.login(signInForm);
-        return new ResponseEntity(token,HttpStatus.OK);
+
+        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
+        Users users = userService.findByEmail(userPrinciple.getEmail()).get();
+        return ResponseEntity.ok(new JwtResponse(token, users));
     }
 
 //    @PostMapping("/update")
