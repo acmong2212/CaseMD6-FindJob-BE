@@ -42,6 +42,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private JwtProvider jwtProvider = new JwtProvider();
 
     @Autowired
+    private ICompanyService companyService;
+
+    @Autowired
     private UserDetailsService userDetailsService;
 
     @Override
@@ -57,13 +60,13 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 if((boolean)claims.get("isCompany")){
                     authorities.add(new SimpleGrantedAuthority("ROLE_COMPANY"));
                     principle.setCompanyId(Long.parseLong(claims.get("COMPANY_ID").toString()));
-//                    principle.setCompany(companyService.findById(principle.getCompanyId()).get());
+                    principle.setCompany(companyService.findById(principle.getCompanyId()).get());
                     //@TOdo setname, email
                 }else {
                     //@Todo set userId, name, email
                     authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
                     principle.setUserId(Long.parseLong(claims.get("USER_ID").toString()));
-//                    principle.setUser(userRepository.findById(principle.getUserId()).get());
+                    principle.setUser(userRepository.findById(principle.getUserId()).get());
                 }
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         principle, null, authorities);

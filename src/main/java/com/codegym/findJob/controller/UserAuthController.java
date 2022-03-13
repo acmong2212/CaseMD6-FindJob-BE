@@ -79,17 +79,8 @@ public class UserAuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody SignInFormUser signInForm){
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(signInForm.getEmail(), signInForm.getPassword())
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = userService.login(signInForm);
-
-        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
-        Users users = userService.findByEmail(userPrinciple.getEmail()).get();
-        return ResponseEntity.ok(new JwtResponse(token, users));
+        return ResponseEntity.ok(new JwtResponse(token));
     }
 
 //    @PostMapping("/update")
