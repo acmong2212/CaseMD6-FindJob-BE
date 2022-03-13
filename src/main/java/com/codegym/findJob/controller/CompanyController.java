@@ -55,6 +55,11 @@ public class CompanyController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/getPost/{id}") // lấy 1 bài post
+    public ResponseEntity<Post> findById(@PathVariable Long id){
+        return new ResponseEntity<>(companyPostService.findById(id), HttpStatus.OK);
+    }
+
     @PutMapping("/post")// sửa 1 bài post
     public ResponseEntity<?> editPost(@RequestBody Post post){
         companyPostService.save(post);

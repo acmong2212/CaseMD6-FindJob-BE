@@ -14,7 +14,9 @@ public class CompanyPostService implements ICompanyPostService {
 
     @Override
     public Post findById(Long id) {
-        return companyPostRepository.findById(id).get();
+        Post post = companyPostRepository.findById(id).get();
+        System.out.println(post);
+        return post;
     }
 
     @Override
