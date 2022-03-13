@@ -1,5 +1,6 @@
 package com.codegym.findJob.service;
 
+import com.codegym.findJob.dto.request.SignInFormUser;
 import com.codegym.findJob.model.Company;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,5 +18,8 @@ public interface ICompanyService {
     Page<Company> findAll(Pageable pageable);
     List<Company> findUsersByIdIsNotLike(Long id);
     int countUsers();
+
+    String login(SignInFormUser signInForm);
     List<Company> findAll();
+    void saveEdit(Company company);
 }

@@ -1,18 +1,18 @@
 package com.codegym.findJob.dto.request;
 
-import com.codegym.findJob.model.RoleName;
 import lombok.Data;
 
-import java.util.Set;
-
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 @Data
-public class SignUpFormCompany {
-    private Long id;
+public class CompanyRegisterReq {
+
     private String name;
+    @NotBlank
     private String password;
+    @Email
     private String email;
     private String description;
     private String avatar;
-    private Set<String> roles;
 }

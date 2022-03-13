@@ -1,14 +1,13 @@
 package com.codegym.findJob.security.jwt;
 
 
-import com.codegym.findJob.security.userprinciple.UserPrinciple;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Map;
 
 @Component
 public class JwtProvider {
@@ -16,9 +15,9 @@ public class JwtProvider {
     private String jwtSecret = "secret code";
     private int jwtExpiration = 86400;
 
-    public String createToken(Authentication authentication) {
-        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
-        return Jwts.builder().setSubject(userPrinciple.getEmail())
+    public String createToken(String subject, Map<String, Object> claims) {
+        return Jwts.builder().setSubject(subject)
+                .setClaims(claims)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + jwtExpiration * 1000))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
@@ -41,6 +40,10 @@ public class JwtProvider {
             logger.error("Jwt claims string is empty -> Message {}",e);
         }
         return false;
+    }
+
+    public Map<String, Object> getClaims(String token){
+        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
     }
 
     public String getEmailFromToken(String token){

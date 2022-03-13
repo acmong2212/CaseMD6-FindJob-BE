@@ -35,7 +35,7 @@ public class CompanyController {
 
     @PutMapping("")// sửa công ty
     public ResponseEntity<?> editCompanyInformation(@RequestBody Company company) {
-        companyService.save(company);
+        companyService.saveEdit(company);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -67,8 +67,9 @@ public class CompanyController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/post/{idCompany}")//tìm bài post của 1 công ty
+    @GetMapping("/post/{idCompany}")//tìm bài post của 1 công ty tính năn 9
     public ResponseEntity<List<Post>> findPostByIdCompany(@PathVariable Long idCompany){
         return new ResponseEntity<>(companyPostService.findPostByIdCompany(idCompany), HttpStatus.OK);
     }
+
 }

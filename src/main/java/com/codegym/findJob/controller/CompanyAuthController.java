@@ -1,12 +1,12 @@
 package com.codegym.findJob.controller;
 
-import com.codegym.findJob.dto.request.SignInForm;
-import com.codegym.findJob.dto.request.SignUpFormCompany;
+import com.codegym.findJob.dto.request.SignInFormUser;
+import com.codegym.findJob.dto.request.CompanyRegisterReq;
+import com.codegym.findJob.dto.response.JwtResponse;
 import com.codegym.findJob.dto.response.JwtResponseCompany;
 import com.codegym.findJob.dto.response.ResponseMessage;
 import com.codegym.findJob.model.Company;
-import com.codegym.findJob.model.Role;
-import com.codegym.findJob.model.RoleName;
+import com.codegym.findJob.model.Users;
 import com.codegym.findJob.security.jwt.JwtProvider;
 import com.codegym.findJob.security.userprinciple.UserPrinciple;
 import com.codegym.findJob.service.ICompanyService;
@@ -17,17 +17,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "*")
+@RequestMapping("company")
 public class CompanyAuthController {
 
     @Autowired
@@ -45,16 +45,16 @@ public class CompanyAuthController {
     @Autowired
     JwtProvider jwtProvider;
 
-    @PostMapping("/signup/company")
-    public ResponseEntity<?> registerCompany (@Valid @RequestBody SignUpFormCompany signUpFormCompany) {
-        if(companyService.existsByName(signUpFormCompany.getName())){
-            return new ResponseEntity<>(new ResponseMessage("name_existed"), HttpStatus.OK);
+    @PostMapping("/register")
+    public ResponseEntity<?> registerCompany (@Valid @RequestBody CompanyRegisterReq request) {
+        if(companyService.existsByName(request.getName())){
+            return new ResponseEntity<>(new ResponseMessage("name_existed"), HttpStatus.BAD_REQUEST);
         }
-        if(companyService.existsByEmail(signUpFormCompany.getEmail())){
-            return new ResponseEntity<>(new ResponseMessage("email_existed"), HttpStatus.OK);
+        if(companyService.existsByEmail(request.getEmail())){
+            return new ResponseEntity<>(new ResponseMessage("email_existed"), HttpStatus.BAD_REQUEST);
         }
 
-        String text = signUpFormCompany.getName();
+        String text = request.getName();
         char[] companyCode = new char[3];
         text.getChars(0, 3, companyCode, 0);
 
@@ -64,47 +64,36 @@ public class CompanyAuthController {
         String companyCodeResult = String.valueOf(companyCode) + "#" + numberResult;
 
         Company company = new Company(
-                signUpFormCompany.getName(),
-                signUpFormCompany.getEmail(),
-                signUpFormCompany.getDescription(),
-                signUpFormCompany.getAvatar(),
-                passwordEncoder.encode(signUpFormCompany.getPassword()));
+                request.getName(),
+                request.getEmail(),
+                request.getDescription(),
+                request.getAvatar(),
+                passwordEncoder.encode(request.getPassword()));
                 company.setCompanyCode(companyCodeResult);
+        System.out.println(companyCodeResult);
 
-        Set<String> strRoles = signUpFormCompany.getRoles();
-        Set<Role> roles = new HashSet<>();
-        strRoles.forEach(role -> {
-            switch (role) {
-                case "ADMIN" :
-                    Role adRole = roleService.findByName(RoleName.ADMIN).orElseThrow( ()-> new RuntimeException("Role not found"));
-                    roles.add(adRole);
-                    break;
-                case "COMPANY" :
-                    Role comRole = roleService.findByName(RoleName.COMPANY).orElseThrow( ()-> new RuntimeException("Role not found"));
-                    roles.add(comRole);
-                    break;
-                default:
-                    Role usRole = roleService.findByName(RoleName.USER).orElseThrow( ()-> new RuntimeException("Role not found"));
-                    roles.add(usRole);
-            }
-        });
-        company.setRoles(roles);
         companyService.save(company);
         return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
     }
 
-    @PostMapping("/signin/company")
-    public ResponseEntity<?> login(@Valid @RequestBody SignInForm signInForm){
-
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody SignInFormUser signInForm){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(signInForm.getEmail(), signInForm.getPassword())
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtProvider.createToken(authentication);
+        String token = companyService.login(signInForm);
 
         UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
         Company company = companyService.findByEmail(userPrinciple.getEmail()).get();
         return ResponseEntity.ok(new JwtResponseCompany(token, company));
     }
+
+//    @PostMapping("/update")
+//    public ResponseEntity<String> update(Authentication auth){
+//        SecurityContext context = SecurityContextHolder.getContext();
+//        context.getAuthentication();
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
 }

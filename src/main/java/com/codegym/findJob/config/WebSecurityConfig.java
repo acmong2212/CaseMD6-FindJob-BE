@@ -27,10 +27,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtEntryPoint jwtEntryPoint;
 
-    @Bean
-    public JwtTokenFilter jwtTokenFilter () {
-        return new JwtTokenFilter();
-    }
 
     @Bean
     PasswordEncoder passwordEncoder(){
@@ -52,13 +48,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors().and().csrf().disable().authorizeRequests()
 //                .antMatchers("/products/**").hasAnyAuthority("ADMIN")
-                .antMatchers( "/**").permitAll()
-//.authenticated()
+                .antMatchers("/company/register","/company/login").permitAll()
+                .antMatchers( "/*").permitAll()
+                .antMatchers("/admin/*").hasRole("ADMIN")
+                .antMatchers("/company/update").hasRole("COMPANY")
+                .antMatchers("/users/update").hasRole("USER")
                 .anyRequest().permitAll()
                 .and().exceptionHandling()
                 .authenticationEntryPoint(jwtEntryPoint)
                 .and().logout().logoutSuccessUrl("/").permitAll()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        httpSecurity.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(new JwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
