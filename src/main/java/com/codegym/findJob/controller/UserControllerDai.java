@@ -29,7 +29,7 @@ public class UserControllerDai {
 
     //15. Là người dùng, tôi muốn xem được top các công ty đang có nhu cầu tuyển dụng cao nhất.
     @GetMapping("")
-    public ResponseEntity<Set<Post>> highestRecruitmentDemand(){
+    public ResponseEntity<List<Company>> highestRecruitmentDemand(){
         return new ResponseEntity<>(companyService.highestRecruitmentDemand(), HttpStatus.OK);
     }
 }

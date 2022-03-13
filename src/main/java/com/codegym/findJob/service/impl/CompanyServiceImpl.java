@@ -2,6 +2,7 @@ package com.codegym.findJob.service.impl;
 
 import com.codegym.findJob.dto.request.SignInFormUser;
 import com.codegym.findJob.model.Company;
+import com.codegym.findJob.model.CompanyShorted;
 import com.codegym.findJob.model.Post;
 import com.codegym.findJob.repository.CompanyRepository;
 import com.codegym.findJob.repository.ICompanyRepository;
@@ -120,10 +121,20 @@ public class CompanyServiceImpl implements ICompanyService {
     }
 
     @Override
-    public Set<Post> highestRecruitmentDemand() {
-        Set<Post> companies = companyRepository.findListCompanyShorted();
-        System.out.println(companies);
-        return companies;
+    public List<CompanyShorted> companyShorted() {
+        return companyRepository.findListCompanyShorted();
+    }
+
+    @Override
+    public List<Company> highestRecruitmentDemand() {
+        List<CompanyShorted> companyShorted = companyShorted();
+        List<Company> companyList = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            if (companyShorted.get(i) != null) {
+                companyList.add(findById(companyShorted.get(i).getCompany_id()).get());
+            }
+        }
+        return companyList;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.codegym.findJob.repository;
 
 import com.codegym.findJob.model.Company;
+import com.codegym.findJob.model.CompanyShorted;
 import com.codegym.findJob.model.Post;
 import com.codegym.findJob.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,6 +18,6 @@ public interface CompanyRepository extends JpaRepository<Users, Long> {
 //    @Query(nativeQuery = true, value = "select * from users where company_code  = :companyCode")
 //    Users findByCompanyCode(@Param("companyCode") String companyCode);
 
-    @Query(nativeQuery = true, value = "select * from post join company on company.id = post.company_id where status = true order by company_id asc ;")
-    Set<Post> findListCompanyShorted();
+    @Query(nativeQuery = true, value = "select count(post.id) as countid,post.company_id from post where post.status = true  group by post.company_id order by countid desc limit 5")
+    List<CompanyShorted> findListCompanyShorted();
 }

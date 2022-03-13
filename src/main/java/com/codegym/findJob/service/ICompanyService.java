@@ -2,6 +2,7 @@ package com.codegym.findJob.service;
 
 import com.codegym.findJob.dto.request.SignInFormUser;
 import com.codegym.findJob.model.Company;
+import com.codegym.findJob.model.CompanyShorted;
 import com.codegym.findJob.model.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,5 +25,6 @@ public interface ICompanyService {
     String login(SignInFormUser signInForm);
     List<Company> findAll();
     void saveEdit(Company company);
-    Set<Post> highestRecruitmentDemand();
+    List<CompanyShorted> companyShorted();
+    List<Company> highestRecruitmentDemand();
 }
