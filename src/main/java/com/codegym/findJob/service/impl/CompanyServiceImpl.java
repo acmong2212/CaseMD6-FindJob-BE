@@ -129,11 +129,11 @@ public class CompanyServiceImpl implements ICompanyService {
     public List<Company> highestRecruitmentDemand() {
         List<CompanyShorted> companyShorted = companyShorted();
         List<Company> companyList = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            if (companyShorted.get(i) != null) {
+        for (int i = 0; i < companyShorted.size(); i++) {
+            System.out.println(companyShorted.get(i).getCompany_id());
                 companyList.add(findById(companyShorted.get(i).getCompany_id()).get());
-            }
         }
+        System.out.println(companyList);
         return companyList;
     }
 

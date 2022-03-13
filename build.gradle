@@ -16,13 +16,19 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven {
+		url 'https://repo.clojars.org'
+		name 'Clojars'
+	}
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
+    implementation 'com.github.hamsterksu:projection-plugin-processor:1.0.0'
+	implementation 'org.projectlombok:lombok:1.18.22'
+	implementation 'clojure-mercator-projection:clojure-mercator-projection:0.1.1'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

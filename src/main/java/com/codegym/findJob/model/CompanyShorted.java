@@ -5,11 +5,9 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Data
-@Entity
-public class CompanyShorted {
-    @Id
-    Long company_id;
-    int countid;
+
+public interface CompanyShorted {
+    Long getCompany_id();
+    int Countid();
 
 }
