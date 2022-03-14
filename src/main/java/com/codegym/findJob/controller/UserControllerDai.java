@@ -17,14 +17,9 @@ import java.util.List;
 @RequestMapping("/userDai")
 @AllArgsConstructor
 public class UserControllerDai {
-    IUserServiceDai userServiceDai;
 
     IPostService postService;
 
-    @GetMapping("/getPostByKeyword/{keyword}") //tính năng 10
-    private ResponseEntity<List<Post>> findByKeyword(@PathVariable String keyword){
-        return new ResponseEntity<>(userServiceDai.findPostByKeyword(keyword), HttpStatus.OK);
-    }
 
     @GetMapping("/search")
         public ResponseEntity<List<Post>> search(@RequestBody SearchForm searchForm){
