@@ -1,5 +1,6 @@
 package com.codegym.findJob.service.impl;
 
+import com.codegym.findJob.dto.request.SearchForm;
 import com.codegym.findJob.model.Post;
 import com.codegym.findJob.repository.IPostRepo;
 import com.codegym.findJob.service.IPostService;
@@ -26,40 +27,40 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public List<Post> search(String title, String companyName, String address, Long idField, Double minSalary, Double maxSalary) {
+    public List<Post> search(SearchForm searchForm) {
         List<Post> byCompanyName = new ArrayList<>();
         List<Post> byAddress = new ArrayList<>();
         List<Post> byIdField = new ArrayList<>();
         List<Post> bySalary = new ArrayList<>();
         List<Post> listReturn = new ArrayList<>();
         List<Post> listCheck =  new ArrayList<>();
-        if (companyName != null) {
-            byCompanyName = postRepo.findLikeCompanyName(companyName);
+        if (searchForm.getCompanyName() != null) {
+            byCompanyName = postRepo.findLikeCompanyName(searchForm.getCompanyName());
             listCheck = byCompanyName;
         }
-        if (address != null) {
-            byAddress = postRepo.findLikeAddress(address);
+        if (searchForm.getAddress() != null) {
+            byAddress = postRepo.findLikeAddress(searchForm.getAddress());
             listCheck = byAddress;
         }
-        if (idField != null) {
-            byIdField = postRepo.findByField(idField);
+        if (searchForm.getIdField() != null) {
+            byIdField = postRepo.findByField(searchForm.getIdField());
             listCheck = byIdField;
         }
-        if (maxSalary != null && minSalary != null) {
-            bySalary = postRepo.findBySalary(minSalary, maxSalary);
+        if (searchForm.getMaxSalary() != null && searchForm.getMinSalary() != null) {
+            bySalary = postRepo.findBySalary(searchForm.getMinSalary(), searchForm.getMaxSalary());
             listCheck = bySalary;
-        }else if (maxSalary == null && minSalary != null) {
-            bySalary = postRepo.findByMinSalary(minSalary);
+        }else if (searchForm.getMaxSalary() == null && searchForm.getMinSalary() != null) {
+            bySalary = postRepo.findByMinSalary(searchForm.getMinSalary());
             listCheck = bySalary;
-        }else if (maxSalary != null && minSalary == null) {
-             bySalary = postRepo.findByMaxSalary(maxSalary);
+        }else if (searchForm.getMaxSalary() != null && searchForm.getMinSalary() == null) {
+             bySalary = postRepo.findByMaxSalary(searchForm.getMaxSalary());
              listCheck = bySalary;
         }
         if (listCheck.size() > 0){
             if (byCompanyName.size() > 0){
                 for (int i = 0; i < byCompanyName.size(); i++) {
                     for (int j = 0; j < listCheck.size(); j++) {
-                        if (byCompanyName.get(i).getId() == listCheck.get(i).getId()){
+                        if (byCompanyName.get(i).getId() == listCheck.get(j).getId()){
                             listReturn.add(byCompanyName.get(i));
                             break;
                         }

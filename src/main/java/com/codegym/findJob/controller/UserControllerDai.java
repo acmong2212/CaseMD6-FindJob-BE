@@ -1,11 +1,13 @@
 package com.codegym.findJob.controller;
 
+import com.codegym.findJob.dto.request.SearchForm;
 import com.codegym.findJob.model.Post;
 import com.codegym.findJob.service.IPostService;
 import com.codegym.findJob.service.IUserServiceDai;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +27,7 @@ public class UserControllerDai {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Post>> search(@PathVariable String title, @PathVariable String companyName, @PathVariable String address,@PathVariable Long idField,@PathVariable Double minSalary, @PathVariable Double maxSalary){
-        return new ResponseEntity<>(postService.search(title, companyName, address, idField,minSalary, maxSalary), HttpStatus.OK);
+        public ResponseEntity<List<Post>> search(@RequestBody SearchForm searchForm){
+        return new ResponseEntity<>(postService.search(searchForm), HttpStatus.OK);
     }
 }

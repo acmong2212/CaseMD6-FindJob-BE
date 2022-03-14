@@ -27,9 +27,9 @@ public interface IPostRepo extends JpaRepository<Post, Long> {
     @Query(nativeQuery = true, value = "select * from post where salary between :minSalary and :maxSalary and status = true")
     List<Post> findBySalary(@Param("minSalary") Double minSalary, @Param("maxSalary") Double maxSalary);
 
-    @Query(nativeQuery = true, value = "select * from post where salary > minSalary and status = true")
+    @Query(nativeQuery = true, value = "select * from post where salary > :minSalary and status = true")
     List<Post> findByMinSalary(@Param("minSalary") Double minSalary);
 
-    @Query(nativeQuery = true, value = "select * from post where salary < maxSalary and status = true")
-    List<Post> findByMaxSalary(@Param("minSalary") Double maxSalary);
+    @Query(nativeQuery = true, value = "select * from post where salary < :maxSalary and status = true")
+    List<Post> findByMaxSalary(@Param("maxSalary") Double maxSalary);
 }

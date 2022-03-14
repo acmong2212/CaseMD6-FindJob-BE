@@ -30,7 +30,7 @@ public class Post {
     private Long experience;
 
     // Loại công việc
-    private String jobType;
+    private boolean jobType;
 
     // Ngày hết hạn
     private Date applicationDeadline;
