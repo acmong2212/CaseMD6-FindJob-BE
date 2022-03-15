@@ -4,6 +4,8 @@ import com.codegym.findJob.model.Post;
 import com.codegym.findJob.repository.CompanyPostRepository;
 import com.codegym.findJob.service.ICompanyPostService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,9 +20,10 @@ public class CompanyPostService implements ICompanyPostService {
     }
 
     @Override
-    public List<Post> findAll() {
-        return companyPostRepository.findAll();
+    public Page<Post> findAll(Pageable pageable) {
+        return companyPostRepository.findAll(pageable);
     }
+
 
     @Override
     public List<Post> findPostByIdCompany(Long idCompany) {

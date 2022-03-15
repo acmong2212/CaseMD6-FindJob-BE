@@ -8,12 +8,15 @@ import com.codegym.findJob.service.ICompanyPostService;
 import com.codegym.findJob.service.ICompanyService;
 import com.codegym.findJob.service.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -35,6 +38,10 @@ public class CompanyController {
     public ResponseEntity<List<Company>> getAllCompany() {
         return new ResponseEntity<>(companyService.findAll(), HttpStatus.OK);
     }
+    @GetMapping("/{id}")
+    public Optional<Company> findCompanyById(@PathVariable Long id){
+        return companyService.findById(id);
+    }
 
     @PutMapping("")// sửa công ty
     public ResponseEntity<?> editCompanyInformation(@RequestBody Company company) {
@@ -43,8 +50,9 @@ public class CompanyController {
     }
 
     @GetMapping("/post")
-    public ResponseEntity<List<Post>> getAllPost() {
-        return new ResponseEntity<>(companyPostService.findAll(), HttpStatus.OK);
+    public ResponseEntity<?> getAllPost(@PageableDefault Pageable pageable) {
+        Page<Post> page = companyPostService.findAll(pageable);
+        return new ResponseEntity<>(page,HttpStatus.OK);
     }
 
     @GetMapping("/field") //lấy ra list ngành
@@ -75,4 +83,5 @@ public class CompanyController {
         companyPostService.setStatusPost(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }
