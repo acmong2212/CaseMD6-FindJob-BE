@@ -1,21 +1,23 @@
 package com.codegym.findJob.controller;
+import com.codegym.findJob.dto.request.SearchForm;
+import com.codegym.findJob.model.Post;
 import com.codegym.findJob.model.Users;
-import com.codegym.findJob.service.IUserService2;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.codegym.findJob.service.IUserService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/users")
 @CrossOrigin(origins = "*")
+@AllArgsConstructor
 public class UserController {
 
-    @Autowired
-    IUserService2 userService;
-
+    IUserService userService;
 
     @GetMapping("/findAllUser")
     public ResponseEntity<List<Users>> getAllUser() {
@@ -32,6 +34,11 @@ public class UserController {
         users.setId(id);
         userService.saveEdit(users);
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @GetMapping("/search/post")
+    public ResponseEntity<Set<Post>> search(@RequestBody SearchForm searchForm) {
+        return new ResponseEntity(userService.search(searchForm), HttpStatus.OK);
     }
 
 }

@@ -2,19 +2,16 @@ package com.codegym.findJob.service.impl;
 
 import com.codegym.findJob.dto.request.SignInFormUser;
 import com.codegym.findJob.model.Company;
-import com.codegym.findJob.repository.ICompanyRepository;
-import com.codegym.findJob.security.jwt.JwtEntryPoint;
+import com.codegym.findJob.repository.ICompanyRepo;
 import com.codegym.findJob.security.jwt.JwtProvider;
 import com.codegym.findJob.service.ICompanyService;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -24,30 +21,19 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class CompanyServiceImpl implements ICompanyService {
 
     private static final Logger logger = LoggerFactory.getLogger(CompanyServiceImpl.class);
 
-    @Autowired
-    ICompanyRepository repo;
+    ICompanyRepo repo;
 
-    @Autowired
     PasswordEncoder encoder;
 
-    @Autowired
     JwtProvider token;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
 
     @PersistenceContext
     EntityManager em;
-
-    @Override
-    public Optional<Company> findByEmail(String email) {
-        return repo.findByEmail(email);
-    }
 
     @Override
     public Boolean existsByName(String name) {
@@ -65,13 +51,6 @@ public class CompanyServiceImpl implements ICompanyService {
     }
 
     @Override
-    @Transactional
-    public void deleteById(Long id) {
-        em.joinTransaction();
-        repo.deleteById(id);
-    }
-
-    @Override
     public Optional<Company> findById(Long id) {
         return repo.findById(id);
     }
@@ -79,16 +58,6 @@ public class CompanyServiceImpl implements ICompanyService {
     @Override
     public Page<Company> findAll(Pageable pageable) {
         return repo.findAll(pageable);
-    }
-
-    @Override
-    public List<Company> findUsersByIdIsNotLike(Long id) {
-        return repo.findUsersByIdIsNotLike(id);
-    }
-
-    @Override
-    public int countUsers() {
-        return repo.countUsers();
     }
 
     @Override
@@ -122,4 +91,9 @@ public class CompanyServiceImpl implements ICompanyService {
         }
         save(company);
     }
+
+
+
+
+
 }

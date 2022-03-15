@@ -1,14 +1,16 @@
 package com.codegym.findJob.repository;
 
 import com.codegym.findJob.model.Post;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface IPostRepo extends JpaRepository<Post, Long> {
     Post findPostById(Long id);
 
@@ -32,4 +34,9 @@ public interface IPostRepo extends JpaRepository<Post, Long> {
 
     @Query(nativeQuery = true, value = "select * from post where salary < :maxSalary and status = true")
     List<Post> findByMaxSalary(@Param("maxSalary") Double maxSalary);
+
+    @Query(nativeQuery = true, value = "select * from post where company_id  = :idCompany")
+    Page<Post> findPostByCompanyCode(@Param("idCompany") Long idCompany, @PageableDefault Pageable pageable);
+
 }
+

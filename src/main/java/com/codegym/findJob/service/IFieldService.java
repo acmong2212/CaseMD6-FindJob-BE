@@ -4,6 +4,6 @@ import com.codegym.findJob.model.Field;
 
 import java.util.List;
 
-public interface ICompanyFieldService {
+public interface IFieldService {
     List<Field> findAll();
 }

@@ -1,22 +1,34 @@
 package com.codegym.findJob.service;
 
+import com.codegym.findJob.dto.request.SearchForm;
 import com.codegym.findJob.dto.request.SignInFormUser;
+import com.codegym.findJob.model.Post;
 import com.codegym.findJob.model.Users;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 public interface IUserService {
-    Optional<Users> findByEmail(String email);
     Boolean existsByEmail(String email);
+
     Users save(Users users);
-    void deleteById(Long id);
-    Optional<Users> findById(Long id);
+
     Page<Users> findAll(Pageable pageable);
-    List<Users> findUsersByIdIsNotLike(Long id);
-    int countUsers();
+
     String login(SignInFormUser signInForm);
+
+    Set<Post> search(SearchForm searchForm);
+
+    //Son
+
+    List<Users> findAllUser();
+
+    Users findUserById(long id);
+
+    void saveUser(Users users);
+
+    void saveEdit(Users user);
 }
+

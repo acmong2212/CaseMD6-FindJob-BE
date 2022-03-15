@@ -3,11 +3,10 @@ package com.codegym.findJob.controller;
 import com.codegym.findJob.model.Company;
 import com.codegym.findJob.model.Field;
 import com.codegym.findJob.model.Post;
-import com.codegym.findJob.service.ICompanyFieldService;
-import com.codegym.findJob.service.ICompanyPostService;
+import com.codegym.findJob.service.IFieldService;
 import com.codegym.findJob.service.ICompanyService;
 import com.codegym.findJob.service.IPostService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -20,67 +19,75 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
+@AllArgsConstructor
 @RequestMapping("/company")
 public class CompanyController {
-    @Autowired
     ICompanyService companyService;
 
-    @Autowired
-    ICompanyPostService companyPostService;
+    IFieldService fieldService;
 
-    @Autowired
-    ICompanyFieldService companyFieldService;
-
-    @Autowired
     IPostService postService;
 
+    //get Field list
+    @GetMapping("/field")
+    public ResponseEntity<List<Field>> getAllField() {
+        return new ResponseEntity<>(fieldService.findAll(), HttpStatus.OK);
+    }
+
+    //COMPANY
     @GetMapping
     public ResponseEntity<List<Company>> getAllCompany() {
         return new ResponseEntity<>(companyService.findAll(), HttpStatus.OK);
     }
+
+    //find Company by Id
     @GetMapping("/{id}")
-    public Optional<Company> findCompanyById(@PathVariable Long id){
+    public Optional<Company> findCompanyById(@PathVariable Long id) {
         return companyService.findById(id);
     }
 
-    @PutMapping("")// sửa công ty
+    //edit Company Profile
+    @PutMapping("")
     public ResponseEntity<?> editCompanyInformation(@RequestBody Company company) {
         companyService.saveEdit(company);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/post")
-    public ResponseEntity<?> getAllPost(@PageableDefault Pageable pageable) {
-        Page<Post> page = companyPostService.findAll(pageable);
-        return new ResponseEntity<>(page,HttpStatus.OK);
+//    ------------------
+//    POST
+
+    //get post by company
+    @GetMapping("/postByCompanyId/{idCompany}")
+    public ResponseEntity<?> findPostByIdCompany(@PathVariable Long idCompany, @PageableDefault Pageable pageable) {
+        Page<Post> page = postService.findPostByIdCompany(idCompany, pageable);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
-    @GetMapping("/field") //lấy ra list ngành
-    public ResponseEntity<List<Field>> getAllField() {
-        return new ResponseEntity<>(companyFieldService.findAll(), HttpStatus.OK);
-    }
-
+    //find Post by Id
     @GetMapping("/post/{id}")
-    public Post findPostById(@PathVariable Long id){
+    public Post findPostById(@PathVariable Long id) {
         return postService.findPostById(id);
     }
 
-    @PostMapping("/post/create") //tạo bài post
+    //create Post
+    @PostMapping("/post/create")
     public ResponseEntity<?> createPost(@RequestBody Post post) {
-        companyPostService.save(post);
+        postService.save(post);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/post/edit/{id}")// sửa 1 bài post
-    public ResponseEntity<?> editPost( @PathVariable Long id,@RequestBody Post post){
+    //edit Post
+    @PutMapping("/post/edit/{id}")
+    public ResponseEntity<?> editPost(@PathVariable Long id, @RequestBody Post post) {
         post.setId(id);
-        companyPostService.save(post);
+        postService.save(post);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/post/status/{id}")// sửa trạng thái status
-    public  ResponseEntity<?> editStatusPost(@PathVariable Long id){
-        companyPostService.setStatusPost(id);
+    //block Status
+    @PutMapping("/post/status/{id}")
+    public ResponseEntity<?> editStatusPost(@PathVariable Long id) {
+        postService.setStatusPost(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

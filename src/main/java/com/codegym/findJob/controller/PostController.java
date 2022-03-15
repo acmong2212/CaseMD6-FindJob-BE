@@ -1,6 +1,7 @@
 package com.codegym.findJob.controller;
 import com.codegym.findJob.model.Post;
 import com.codegym.findJob.service.IPostService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,9 +16,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/post")
 @CrossOrigin(origins = "*")
+@AllArgsConstructor
 public class PostController {
 
-    @Autowired
     IPostService postService;
 
     @GetMapping("/findAllPost")
