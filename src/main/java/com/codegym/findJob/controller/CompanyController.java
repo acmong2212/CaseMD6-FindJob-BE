@@ -6,6 +6,7 @@ import com.codegym.findJob.model.Post;
 import com.codegym.findJob.service.ICompanyFieldService;
 import com.codegym.findJob.service.ICompanyPostService;
 import com.codegym.findJob.service.ICompanyService;
+import com.codegym.findJob.service.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,8 @@ public class CompanyController {
     @Autowired
     ICompanyFieldService companyFieldService;
 
+    @Autowired
+    IPostService postService;
 
     @GetMapping
     public ResponseEntity<List<Company>> getAllCompany() {
@@ -49,27 +52,33 @@ public class CompanyController {
         return new ResponseEntity<>(companyFieldService.findAll(), HttpStatus.OK);
     }
 
-    @PostMapping("/post") //tạo bài post
+    @PostMapping("/post/create") //tạo bài post
     public ResponseEntity<?> createPost(@RequestBody Post post) {
         companyPostService.save(post);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(post,HttpStatus.OK);
     }
 
-    @PutMapping("/post")// sửa 1 bài post
-    public ResponseEntity<?> editPost(@RequestBody Post post){
+    @PutMapping("/post/edit/{id}")// sửa 1 bài post
+    public ResponseEntity<?> editPost(@PathVariable("id") Long id ,@RequestBody Post post){
+        post.setId(id);
         companyPostService.save(post);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/post/{id}")// sửa trạng thái status
+    @PutMapping("/post/status/{id}")// sửa trạng thái status
     public  ResponseEntity<?> editStatusPost(@PathVariable Long id){
         companyPostService.setStatusPost(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/post/{idCompany}")//tìm bài post của 1 công ty tính năn 9
-    public ResponseEntity<List<Post>> findPostByIdCompany(@PathVariable Long idCompany){
-        return new ResponseEntity<>(companyPostService.findPostByIdCompany(idCompany), HttpStatus.OK);
+    @GetMapping("/post/{id}")
+    public Post findPostById(@PathVariable Long id){
+        return postService.findPostById(id);
     }
+
+//    @GetMapping("/post/{idCompany}")//tìm bài post của 1 công ty tính năn 9
+//    public ResponseEntity<List<Post>> findPostByIdCompany(@PathVariable Long idCompany){
+//        return new ResponseEntity<>(companyPostService.findPostByIdCompany(idCompany), HttpStatus.OK);
+//    }
 
 }
