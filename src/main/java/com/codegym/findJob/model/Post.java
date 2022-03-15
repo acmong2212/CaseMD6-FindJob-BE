@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.sql.Date;
 
 @Data
@@ -15,15 +14,15 @@ public class Post {
     private Long id;
 
     @NotBlank
-    @Size(min = 3, max = 50)
     private String title;
 
     private String salary;
 
     // vị trí tuyển dụng
-    private String jobLocation;
-
     private String position;
+
+    // địa điểm làm việc
+    private String jobLocation;
 
     // kinh nghiệm
     private Long experience;

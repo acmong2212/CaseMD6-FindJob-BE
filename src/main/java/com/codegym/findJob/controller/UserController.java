@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUserById(@PathVariable("id") Long id, @RequestBody Users users) {
         users.setId(id);
-        userService.saveUser(users);
+        userService.saveEdit(users);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 

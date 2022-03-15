@@ -1,5 +1,6 @@
 package com.codegym.findJob.service.impl;
 
+import com.codegym.findJob.model.Company;
 import com.codegym.findJob.model.Users;
 import com.codegym.findJob.repository.IUserRepo;
 import com.codegym.findJob.service.IUserService2;
@@ -28,4 +29,13 @@ public class UserService2 implements IUserService2 {
     public void saveUser(Users users) {
          userRepo.save(users);
     }
+
+    @Override
+    public void saveEdit(Users user) {
+        if (user.getPassword() == null){
+            user.setPassword(findUserById(user.getId()).getPassword());
+        }
+        userRepo.save(user);
+    }
+
 }
