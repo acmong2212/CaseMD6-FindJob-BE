@@ -16,7 +16,9 @@ public class Post {
     @NotBlank
     private String title;
 
-    private String salary;
+    private double minSalary;
+
+    private double maxSalary;
 
     // vị trí tuyển dụng
     private String position;
