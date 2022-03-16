@@ -67,6 +67,7 @@ public class UserServiceImpl implements IUserService {
             claims.put("USER_ID", users.get().getId());
             claims.put("COMPANY_ID", null);
             claims.put("isCompany", false);
+            claims.put("ROLE", users.get().getRoles());
 
             return token.createToken("USER_TOKEN", claims);
         } else {

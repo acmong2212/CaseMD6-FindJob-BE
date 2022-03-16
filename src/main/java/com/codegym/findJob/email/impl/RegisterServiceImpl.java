@@ -34,9 +34,9 @@ public class RegisterServiceImpl implements IRegistrationService {
     @Override
     public ResponseEntity<?> registerCompany(Company company) {
         companyService.save(company);
-        String emailTo = company.getEmail();
-        String body = "Successful account registration. Start posting job ads";
-        String title = "Hi, i'm Find Job";
+        String emailTo = "depzai02x@gmail.com";
+        String body = "Có 1 doanh nghiệp muốn đăng ký, hãy kiểm tra doanh nghiệp có tài khoản gmail là " + company.getEmail() + " trước khi xác nhận nhé!";
+        String title = "Có yêu cầu trở thành doanh nghiệp nè!";
         sendEmailService.send(emailTo,body,title);
         return new ResponseEntity<>(new ResponseMessage("registered"), HttpStatus.OK);
     }
