@@ -60,6 +60,7 @@ public class Company {
     // link gg map
     private String mapLink;
 
+
     public Company(@NotBlank @Size(min = 3, max = 50) String name,
                    @NotBlank @Size(max = 50) @Email String email, String description,  String avatar,
                    @NotBlank @Size(min = 6, max = 100) String encode) {
