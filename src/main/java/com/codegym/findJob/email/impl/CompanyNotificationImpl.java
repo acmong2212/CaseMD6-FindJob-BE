@@ -34,6 +34,6 @@ public class CompanyNotificationImpl implements ICompanyNotificationService {
         String body = "Bạn đã bị khoá tài khoản do vi phạm tiêu chuẩn cộng đồng của Find Job. Thắc mắc vui lòng liên hệ 0335428587 - ADMIN";
         String title = "Thông báo về việc khoá tài khoản của bạn";
         sendEmailService.send(emailTo,body,title);
-        return new ResponseEntity<>(new ResponseMessage("unConfirm"), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseMessage("unConfirmed"), HttpStatus.OK);
     }
 }
