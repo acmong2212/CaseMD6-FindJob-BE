@@ -19,10 +19,7 @@ public interface ICompanyRepo extends JpaRepository<Company, Long> {
 
     Company findByEmailAndPassword(String email, String password);
 
-    @Query(nativeQuery = true, value = "select count(id) from company")
-
     @Query(nativeQuery = true, value = "select count(post.id) as countid,post.company_id from post where post.status = true  group by post.company_id order by countid desc limit 5")
     List<CompanyShorted> findListCompanyShorted();
-
 
 }
