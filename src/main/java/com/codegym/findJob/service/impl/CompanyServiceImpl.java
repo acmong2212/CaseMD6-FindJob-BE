@@ -2,6 +2,7 @@ package com.codegym.findJob.service.impl;
 
 import com.codegym.findJob.dto.request.SignInFormUser;
 import com.codegym.findJob.model.Company;
+import com.codegym.findJob.model.CompanyShorted;
 import com.codegym.findJob.repository.ICompanyRepo;
 import com.codegym.findJob.security.jwt.JwtProvider;
 import com.codegym.findJob.service.ICompanyService;
@@ -15,10 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -92,8 +90,16 @@ public class CompanyServiceImpl implements ICompanyService {
         save(company);
     }
 
-
-
-
+    @Override
+    public List<Company> highestRecruitmentDemand() {
+        List<CompanyShorted> companyShorted = repo.findListCompanyShorted();
+        List<Company> companyList = new ArrayList<>();
+        for (int i = 0; i < companyShorted.size(); i++) {
+            System.out.println(companyShorted.get(i).getCompany_id());
+            companyList.add(findById(companyShorted.get(i).getCompany_id()).get());
+        }
+        System.out.println(companyList);
+        return companyList;
+    }
 
 }

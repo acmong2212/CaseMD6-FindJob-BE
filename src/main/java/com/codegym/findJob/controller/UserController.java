@@ -1,7 +1,9 @@
 package com.codegym.findJob.controller;
 import com.codegym.findJob.dto.request.SearchForm;
+import com.codegym.findJob.model.Company;
 import com.codegym.findJob.model.Post;
 import com.codegym.findJob.model.Users;
+import com.codegym.findJob.service.ICompanyService;
 import com.codegym.findJob.service.IUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,8 @@ import java.util.Set;
 @CrossOrigin(origins = "*")
 @AllArgsConstructor
 public class UserController {
+
+    ICompanyService companyService;
 
     IUserService userService;
 
@@ -39,6 +43,11 @@ public class UserController {
     @GetMapping("/search/post")
     public ResponseEntity<Set<Post>> search(@RequestBody SearchForm searchForm) {
         return new ResponseEntity(userService.search(searchForm), HttpStatus.OK);
+    }
+
+    @GetMapping("/topCompany")
+    public ResponseEntity<List<Company>> highestRecruitmentDemand(){
+        return new ResponseEntity<>(companyService.highestRecruitmentDemand(), HttpStatus.OK);
     }
 
 }
