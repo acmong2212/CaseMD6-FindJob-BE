@@ -6,4 +6,5 @@ import org.springframework.http.ResponseEntity;
 public interface ICompanyNotificationService {
     ResponseEntity<?> notificationConfirm(Company company);
     ResponseEntity<?> notificationUnConfirm(Company company);
+    ResponseEntity<?> notificationUserApply(Company company);
 }

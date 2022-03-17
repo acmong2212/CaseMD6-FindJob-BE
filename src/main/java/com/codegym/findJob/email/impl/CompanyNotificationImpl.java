@@ -31,9 +31,18 @@ public class CompanyNotificationImpl implements ICompanyNotificationService {
     public ResponseEntity<?> notificationUnConfirm(Company company) {
         companyService.save(company);
         String emailTo = company.getEmail();
-        String body = "Bạn đã bị khoá tài khoản do vi phạm tiêu chuẩn cộng đồng của Find Job. Thắc mắc vui lòng liên hệ 0335428587 - ADMIN";
+        String body = "Bạn đã bị khoá tài khoản do vi phạm tiêu chuẩn cộng đồng của Find Job. Nếu có thắc mắc, hãy liên hệ với chúng tôi.";
         String title = "Thông báo về việc khoá tài khoản của bạn";
         sendEmailService.send(emailTo,body,title);
         return new ResponseEntity<>(new ResponseMessage("unConfirmed"), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> notificationUserApply(Company company) {
+        String emailTo = company.getEmail();
+        String body = "Hi " + company.getName() + ", ai đó đã ứng tuyển vào bài post của bạn. Kiểm tra nhé!";
+        String title = "Thông báo chút nè :3";
+        sendEmailService.send(emailTo,body,title);
+        return new ResponseEntity<>(new ResponseMessage("Applied"), HttpStatus.OK);
     }
 }

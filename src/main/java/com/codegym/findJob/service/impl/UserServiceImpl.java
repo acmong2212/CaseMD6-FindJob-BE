@@ -7,12 +7,16 @@ import com.codegym.findJob.model.Users;
 import com.codegym.findJob.repository.IPostRepo;
 import com.codegym.findJob.repository.IUserRepo;
 import com.codegym.findJob.security.jwt.JwtProvider;
+import com.codegym.findJob.security.userprinciple.InfoPriciple;
 import com.codegym.findJob.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +69,7 @@ public class UserServiceImpl implements IUserService {
         } else if (encoder.matches(signInForm.getPassword(), users.get().getPassword())) {
             Map<String, Object> claims = new HashMap<>();
             claims.put("USER_ID", users.get().getId());
+//            claims.put("EMAIL", users.get().getEmail());
             claims.put("COMPANY_ID", null);
             claims.put("isCompany", false);
             claims.put("ROLE", users.get().getRoles());
@@ -89,6 +94,11 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public Optional<Users> findByEmail(String email) {
+        return userRepo.findByEmail(email);
+    }
+
+    @Override
     public void saveUser(Users users) {
         userRepo.save(users);
     }
@@ -99,6 +109,15 @@ public class UserServiceImpl implements IUserService {
             user.setPassword(findUserById(user.getId()).getPassword());
         }
         userRepo.save(user);
+    }
+
+    @Override
+    public Users getUsersPriciple() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof InfoPriciple) {
+            return ((InfoPriciple) principal).getUser();
+        }
+        return null;
     }
 
     //DAI
