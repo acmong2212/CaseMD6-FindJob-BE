@@ -69,6 +69,7 @@ public class CompanyServiceImpl implements ICompanyService {
             claims.put("USER_ID", null);
             claims.put("COMPANY_ID", cpn.get().getId());
             claims.put("isCompany", true);
+            claims.put("status", cpn.get().isStatus());
 
             return token.createToken("COMPANY_TOKEN", claims);
         } else {
