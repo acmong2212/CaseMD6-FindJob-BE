@@ -1,6 +1,7 @@
 package com.codegym.findJob.repository;
 
 import com.codegym.findJob.model.Company;
+import com.codegym.findJob.model.CompanyShorted;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -22,4 +23,7 @@ public interface ICompanyRepo extends JpaRepository<Company, Long> {
     int countUsers();
 
     List<Company> findAllByEmailContaining(String email);
+    @Query(nativeQuery = true, value = "select count(post.id) as countid,post.company_id from post where post.status = true  group by post.company_id order by countid desc limit 5")
+    List<CompanyShorted> findListCompanyShorted();
+
 }

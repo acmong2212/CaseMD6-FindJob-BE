@@ -27,4 +27,7 @@ public interface ICompanyService {
     void saveEdit(Company company);
 
     List<Company> findAllByEmailContaining(String email);
+
+    List<Company> highestRecruitmentDemand();
+
 }
