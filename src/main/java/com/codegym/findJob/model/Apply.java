@@ -16,4 +16,6 @@ public class Apply {
 
     @ManyToOne
     private Post post;
+
+    private boolean isApplied = true;
 }

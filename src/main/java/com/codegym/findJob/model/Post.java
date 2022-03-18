@@ -47,6 +47,7 @@ public class Post {
 
     private boolean status;
 
+
     @ManyToOne
     private Company company;
 

@@ -26,7 +26,13 @@ public interface IUserService {
 
     Users findUserById(long id);
 
+    void saveUser(Users users);
+
     void saveEdit(Users user);
+
+    // Thang
+    Users getUsersPriciple();
+    Users findById(Long id);
 
     List<GetJobLocation> getJobLocation();
 

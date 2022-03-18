@@ -18,6 +18,8 @@ public class AdminController {
 
     private ICompanyNotificationService companyNotificationService;
 
+
+    // Duyệt doanh nghiệp khi đăng ký
     @PutMapping("/confirmCompany/{idCompany}")
     public ResponseEntity<?> confirmCompany(@PathVariable("idCompany") Long id) {
         Company company = companyService.findById(id).get();
@@ -26,11 +28,18 @@ public class AdminController {
         return new ResponseEntity<>(company, HttpStatus.OK);
     }
 
+    // Block doanh nghiệp
     @PutMapping("/unConfirmCompany/{idCompany}")
     public ResponseEntity<?> unConfirmCompany(@PathVariable("idCompany") Long id) {
         Company company = companyService.findById(id).get();
         company.setStatus(false);
         companyNotificationService.notificationUnConfirm(company);
         return new ResponseEntity<>(company, HttpStatus.OK);
+    }
+
+    // Tìm doanh nghiệp
+    @GetMapping("/search/{email}")
+    public ResponseEntity<?> searchCompany(@PathVariable("email") String email) {
+        return new ResponseEntity<>(companyService.findAllByEmailContaining(email), HttpStatus.OK);
     }
 }

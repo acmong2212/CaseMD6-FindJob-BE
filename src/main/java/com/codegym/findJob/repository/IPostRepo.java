@@ -13,13 +13,18 @@ import java.util.List;
 
 public interface IPostRepo extends JpaRepository<Post, Long> {
 
-    @Query(nativeQuery = true, value="select * from post where status = true;")
+    @Query(nativeQuery = true, value="select * from post where status = true order by vacancy desc")
     Page<Post>findAllPosts(Pageable pageable);
 
     Post findPostById(Long id);
 
+
     @Query(nativeQuery = true, value = "select * from post where company_id  = :idCompany")
     Page<Post> findPostByCompanyCode(@Param("idCompany") Long idCompany, @PageableDefault Pageable pageable);
+
+    // Lấy ra bài post không bị khoá và chưa được user đó apply
+    @Query(nativeQuery = true, value = "select * from post where id not in (SELECT post_id FROM apply where users_id = :uid) and id not in (SELECT id FROM post where status = 0)")
+    List<Post> findAllPostByStatusAndApply(@Param("uid") Long uid);
 
 
     @Query(nativeQuery = true, value = "select post.* from post join company on company.id = post.company_id where company.name like  %:title% " +
