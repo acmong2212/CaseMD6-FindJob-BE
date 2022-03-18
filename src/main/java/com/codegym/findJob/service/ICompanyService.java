@@ -25,4 +25,6 @@ public interface ICompanyService {
     List<Company> findAll();
 
     void saveEdit(Company company);
+
+    List<Company> findAllByEmailContaining(String email);
 }

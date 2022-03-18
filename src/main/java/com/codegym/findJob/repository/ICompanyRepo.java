@@ -20,4 +20,6 @@ public interface ICompanyRepo extends JpaRepository<Company, Long> {
 
     @Query(nativeQuery = true, value = "select count(id) from company")
     int countUsers();
+
+    List<Company> findAllByEmailContaining(String email);
 }

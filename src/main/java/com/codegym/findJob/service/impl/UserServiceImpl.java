@@ -120,6 +120,11 @@ public class UserServiceImpl implements IUserService {
         return null;
     }
 
+    @Override
+    public Users findById(Long id) {
+        return null;
+    }
+
     //DAI
     @Override
         public Set<Post> search(SearchForm searchForm) {

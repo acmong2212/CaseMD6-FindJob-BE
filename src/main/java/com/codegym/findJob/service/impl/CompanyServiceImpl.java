@@ -93,8 +93,10 @@ public class CompanyServiceImpl implements ICompanyService {
         save(company);
     }
 
-
-
+    @Override
+    public List<Company> findAllByEmailContaining(String email) {
+        return repo.findAllByEmailContaining(email);
+    }
 
 
 }

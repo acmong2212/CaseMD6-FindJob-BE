@@ -6,7 +6,6 @@ import com.codegym.findJob.model.Post;
 import com.codegym.findJob.model.Users;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,5 +36,6 @@ public interface IUserService {
 
     // Thang
     Users getUsersPriciple();
+    Users findById(Long id);
 }
 

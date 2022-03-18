@@ -6,6 +6,7 @@ import com.codegym.findJob.model.Company;
 import com.codegym.findJob.model.Post;
 import com.codegym.findJob.model.Users;
 import com.codegym.findJob.repository.IApplyRepo;
+import com.codegym.findJob.repository.IPostRepo;
 import com.codegym.findJob.security.userprinciple.InfoPriciple;
 import com.codegym.findJob.service.IApplyService;
 import com.codegym.findJob.service.IPostService;
@@ -20,6 +21,7 @@ import java.util.List;
 public class ApplyServiceImpl implements IApplyService {
 
     private IApplyRepo applyRepo;
+    private IPostRepo postRepo;
 
     private IPostService postService;
 
@@ -38,6 +40,7 @@ public class ApplyServiceImpl implements IApplyService {
         apply = new Apply();
         apply.setPost(post);
         apply.setUsers(users);
+        apply.setApplied(false);
         applyRepo.save(apply);
         companyNotificationService.notificationUserApply(company);
     }
@@ -45,5 +48,10 @@ public class ApplyServiceImpl implements IApplyService {
     @Override
     public void deleteApply(Long id) {
         applyRepo.deleteById(id);
+    }
+
+    @Override
+    public List<Post> findAllPostByStatusAndApply(Long uid) {
+        return postRepo.findAllPostByStatusAndApply(uid);
     }
 }
