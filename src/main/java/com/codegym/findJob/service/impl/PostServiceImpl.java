@@ -21,8 +21,8 @@ public class PostServiceImpl implements IPostService {
     ICompanyRepo companyRepo;
 
     @Override
-    public Page<Post> findAllPost(Pageable pageable) {
-        return postRepo.findAll(pageable);
+    public Page<Post> findAllPosts(Pageable pageable) {
+        return this.postRepo.findAllPosts(pageable);
     }
 
     @Override

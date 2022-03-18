@@ -23,7 +23,7 @@ public class PostController {
 
     @GetMapping("/findAllPost")
     public ResponseEntity<?> getAllPost(@PageableDefault(sort = "vacancy", direction = Sort.Direction.ASC)Pageable pageable) {
-        Page<Post> postPage = postService.findAllPost(pageable);
+        Page<Post> postPage = postService.findAllPosts(pageable);
         return new ResponseEntity<>(postPage, HttpStatus.OK);
     }
 

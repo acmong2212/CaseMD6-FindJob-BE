@@ -2,6 +2,7 @@ package com.codegym.findJob.service.impl;
 
 import com.codegym.findJob.dto.request.SearchForm;
 import com.codegym.findJob.dto.request.SignInFormUser;
+import com.codegym.findJob.dto.response.GetJobLocation;
 import com.codegym.findJob.model.Post;
 import com.codegym.findJob.model.Users;
 import com.codegym.findJob.repository.IPostRepo;
@@ -89,11 +90,6 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void saveUser(Users users) {
-        userRepo.save(users);
-    }
-
-    @Override
     public void saveEdit(Users user) {
         if (user.getPassword() == null){
             user.setPassword(findUserById(user.getId()).getPassword());
@@ -101,98 +97,35 @@ public class UserServiceImpl implements IUserService {
         userRepo.save(user);
     }
 
-    //DAI
+
+    //dai
     @Override
-        public Set<Post> search(SearchForm searchForm) {
-            List<Post> byTitle = new ArrayList<>();
-            List<Post> byCompanyName = new ArrayList<>();
-            List<Post> byAddress = new ArrayList<>();
-            List<Post> byIdField = new ArrayList<>();
-            List<Post> bySalary = new ArrayList<>();
-            Set<Post> listReturn = new HashSet<>();
-            List<Post> listCheck =  new ArrayList<>();
-        if (searchForm.getTitle() != null){
-            byTitle = postRepo.findByTitle(searchForm.getTitle());
-            listCheck = byTitle;
-        }
-            if (searchForm.getCompanyName() != null) {
-                byCompanyName = postRepo.findLikeCompanyName(searchForm.getCompanyName());
-                listCheck = byCompanyName;
-            }
-            if (searchForm.getAddress() != null) {
-                byAddress = postRepo.findLikeAddress(searchForm.getAddress());
-                listCheck = byAddress;
-            }
-            if (searchForm.getIdField() != null) {
-                byIdField = postRepo.findByField(searchForm.getIdField());
-                listCheck = byIdField;
-            }
+    public List<GetJobLocation> getJobLocation() {
+        return userRepo.getJobLocation();
+    }
 
-            if (searchForm.getMaxSalary() != null && searchForm.getMinSalary() != null) {
-                bySalary = postRepo.findBySalary(searchForm.getMinSalary(), searchForm.getMaxSalary());
-                listCheck = bySalary;
-            }else if (searchForm.getMaxSalary() == null && searchForm.getMinSalary() != null) {
-                bySalary = postRepo.findByMinSalary(searchForm.getMinSalary());
-                listCheck = bySalary;
-            }else if (searchForm.getMaxSalary() != null && searchForm.getMinSalary() == null) {
-                bySalary = postRepo.findByMaxSalary(searchForm.getMaxSalary());
-                listCheck = bySalary;
-            }
-            if (listCheck.size() > 0){
-                if (byTitle.size() > 0){
-                    for (int i = 0; i < byTitle.size(); i++) {
-                        for (int j = 0; j < listCheck.size(); j++) {
-                            if (byTitle.get(i).getId() == listCheck.get(j).getId()){
-                                listReturn.add(byTitle.get(i));
-                                break;
-                            }
-                        }
-                    }
-                }
-                if (byCompanyName.size() > 0){
-                    for (int i = 0; i < byCompanyName.size(); i++) {
-                        for (int j = 0; j < listCheck.size(); j++) {
-                            if (byCompanyName.get(i).getId() == listCheck.get(j).getId()){
-                                listReturn.add(byCompanyName.get(i));
-                                break;
-                            }
-                        }
-                    }
-                }
-                if (byAddress.size() > 0){
-                    for (int i = 0; i < byAddress.size(); i++) {
-                        for (int j = 0; j < listCheck.size(); j++) {
-                            if (byAddress.get(i).getId() == listCheck.get(j).getId()){
-                                listReturn.add(byAddress.get(i));
-                                break;
-                            }
-                        }
-                    }
-                }
-                if (byIdField.size() > 0){
-                    for (int i = 0; i < byIdField.size(); i++) {
-                        for (int j = 0; j < listCheck.size(); j++) {
-                            if (byIdField.get(i).getId() == listCheck.get(j).getId()){
-                                listReturn.add(byIdField.get(i));
-                                break;
-                            }
-                        }
-                    }
-                }
-                if (bySalary.size() > 0){
-                    for (int i = 0; i < bySalary.size(); i++) {
-                        for (int j = 0; j < listCheck.size(); j++) {
-                            if (bySalary.get(i).getId() == listCheck.get(j).getId()){
-                                listReturn.add(bySalary.get(i));
-                                break;
-                            }
-                        }
-                    }
-                }
-                return listReturn;
-            }else return null;
+
+    @Override
+    public List<Post> search(SearchForm searchForm) {
+
+        if (searchForm.get_title() == null){
+            searchForm.set_title("");
+        }
+        if (searchForm.get_jobLocation() == null){
+            searchForm.set_jobLocation("");
+        }
+        if(searchForm.get_minSalary() == null){
+            searchForm.set_minSalary((double) 0);
+        }
+        if (searchForm.get_maxSalary() == null){
+            searchForm.set_maxSalary(Math.pow(10, 308));
+        }
+        if (searchForm.get_idField() == null){
+            return postRepo.searchPostNoField(searchForm.get_title(), searchForm.get_jobLocation(), searchForm.get_minSalary(), searchForm.get_maxSalary());
         }
 
+        return postRepo.searchPost(searchForm.get_title(), searchForm.get_jobLocation(), searchForm.get_idField(), searchForm.get_minSalary(),searchForm.get_maxSalary());
+    }
 
 
     }

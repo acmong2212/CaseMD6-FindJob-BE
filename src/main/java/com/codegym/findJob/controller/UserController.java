@@ -1,5 +1,6 @@
 package com.codegym.findJob.controller;
 import com.codegym.findJob.dto.request.SearchForm;
+import com.codegym.findJob.dto.response.GetJobLocation;
 import com.codegym.findJob.model.Post;
 import com.codegym.findJob.model.Users;
 import com.codegym.findJob.service.IUserService;
@@ -36,9 +37,14 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @GetMapping("/search/post")
-    public ResponseEntity<Set<Post>> search(@RequestBody SearchForm searchForm) {
-        return new ResponseEntity(userService.search(searchForm), HttpStatus.OK);
+    @GetMapping("/getJobLocation")
+    public ResponseEntity<List<GetJobLocation>> get(){
+        return new ResponseEntity<>(userService.getJobLocation(),HttpStatus.OK);
+    }
+
+    @PutMapping("/search/post")
+    public ResponseEntity<List<Post>> findJob(@RequestBody SearchForm searchForm) {
+        return new ResponseEntity<>(userService.search(searchForm), HttpStatus.OK);
     }
 
 }

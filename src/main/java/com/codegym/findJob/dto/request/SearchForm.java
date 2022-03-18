@@ -4,10 +4,11 @@ import lombok.Data;
 
 @Data
 public class SearchForm {
-    private String title;
-    private String companyName;
-    private String address;
-    private Long idField;
-    private Double minSalary;
-    private Double maxSalary;
+    private String _title;
+    private String _jobLocation;
+    private Long _idField;
+    private Double _minSalary;
+    private Double _maxSalary;
+
+
 }
