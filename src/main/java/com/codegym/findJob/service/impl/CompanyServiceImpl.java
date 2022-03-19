@@ -102,10 +102,18 @@ public class CompanyServiceImpl implements ICompanyService {
         System.out.println(companyList);
         return companyList;
     }
+
+
     @Override
     public List<Company> findAllByEmailContaining(String email) {
         return repo.findAllByEmailContaining(email);
     }
 
 
+    //Thao
+    //ham hien thi so luong apply bai post cua cong ty
+    @Override
+    public List<Long> countApplyByPost(Long postId) {
+        return repo.countApplyByPost(postId);
+    }
 }

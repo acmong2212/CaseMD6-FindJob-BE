@@ -3,9 +3,11 @@ package com.codegym.findJob.controller;
 import com.codegym.findJob.model.Company;
 import com.codegym.findJob.model.Field;
 import com.codegym.findJob.model.Post;
+import com.codegym.findJob.model.Users;
 import com.codegym.findJob.service.IFieldService;
 import com.codegym.findJob.service.ICompanyService;
 import com.codegym.findJob.service.IPostService;
+import com.codegym.findJob.service.IUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +30,8 @@ public class CompanyController {
     IFieldService fieldService;
 
     IPostService postService;
+
+    IUserService userService;
 
     //get Field list
     @GetMapping("/field")
@@ -89,6 +94,18 @@ public class CompanyController {
     public ResponseEntity<?> editStatusPost(@PathVariable Long id) {
         postService.setStatusPost(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    //Thao
+    //ham hien thi so luong apply bai post cua cong ty
+    @GetMapping("/post/count/{postId}")
+        public List<Users> countApplyByPost(@PathVariable Long postId){
+        List<Long> userIdList = companyService.countApplyByPost(postId);
+        List<Users> userAppliedList = new ArrayList<>();
+        for (Long aLong : userIdList) {
+            userAppliedList.add(userService.findById(aLong));
+        }
+        return userAppliedList;
     }
 
 }

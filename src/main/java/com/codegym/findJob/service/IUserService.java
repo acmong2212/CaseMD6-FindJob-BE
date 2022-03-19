@@ -32,6 +32,7 @@ public interface IUserService {
 
     // Thang
     Users getUsersPriciple();
+
     Users findById(Long id);
 
     List<GetJobLocation> getJobLocation();

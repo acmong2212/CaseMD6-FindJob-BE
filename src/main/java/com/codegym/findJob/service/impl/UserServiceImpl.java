@@ -118,7 +118,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public Users findById(Long id) {
-        return null;
+        return userRepo.findById(id).get();
     }
 
     //DAI
